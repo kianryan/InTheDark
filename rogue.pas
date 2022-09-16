@@ -48,8 +48,8 @@ var
     GenNext: Boolean;
 begin
     { So, we know the current room, and we can decide a direction}
-    D := Random(4);
-    D := 0;         { But not that random }
+    D := Random(2);
+    D := 3;         { But not that random }
 
     W := Random(MaxWidth-MinWidth) + MinWidth + 1;
     H := Random(MaxHeight-MinHeight) + MinHeight + 1;
@@ -75,6 +75,39 @@ begin
                 Y1 := Y - (H div 2);
                 Y2 := Y1 + H;
             end;
+            1: begin
+                X1 := CR.X2;
+                if (X1 + W > SWidth) then W := SWidth - X1;
+                if (W < 3) then GenNext := False; { esc out}
+                X2 := X1 + W;
+                Y := Random(CR.Y2 - CR.Y1 - 1) + CR.Y1 + 1;
+                if (Y - (H div 2) < 1) then H := Y;
+                if (Y - (H div 2) + H >= SHeight) then H := (SHeight - Y - 1);
+                Y1 := Y - (H div 2);
+                Y2 := Y1 + H;
+            end;
+            2: begin
+                Y2 := CR.Y1;
+                if (Y2 - H < 1) then H := Y2 - 1;
+                if (H < 3) then GenNext := False; { esc out}
+                Y1 := Y2 - H;
+                X := Random(CR.X2 - CR.X1 - 1) + CR.X1 + 1;
+                if (X - (W div 2) < 1) then W := X;
+                if (X - (W div 2) + W >= SWidth) then W := (SWidth - X - 1);
+                X1 := X - (W div 2);
+                X2 := X1 + W;
+            end;
+            3: begin
+                Y1 := CR.Y2;
+                if (Y1 + H > SHeight) then H := SHeight - Y1;
+                if (H < 3) then GenNext := False; { esc out}
+                Y2 := Y1 + H;
+                X := Random(CR.X2 - CR.X1 - 1) + CR.X1 + 1;
+                if (X - (W div 2) < 1) then W := X;
+                if (X - (W div 2) + W >= SWidth) then W := (SWidth - X - 1);
+                X1 := X - (W div 2);
+                X2 := X1 + W;
+           end;
         end;
    end;
 
