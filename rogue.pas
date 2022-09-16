@@ -43,12 +43,13 @@ end;
 function NextRoom : Boolean;
 var
     W, H, X, Y: Integer;
+    D: Integer; { direction of travel }
     CR: Room;
     GenNext: Boolean;
 begin
     { So, we know the current room, and we can decide a direction}
-    // D := Random(4);
-    // D := 0;         { But not that random }
+    D := Random(4);
+    D := 0;         { But not that random }
 
     W := Random(MaxWidth-MinWidth) + MinWidth + 1;
     H := Random(MaxHeight-MinHeight) + MinHeight + 1;
@@ -62,16 +63,20 @@ begin
 
     with Rooms[RoomI + 1] do
     begin
-        X2 := CR.X1;
-        if (X2 - W < 1) then W := X2 - 1;
-        if (W < 3) then GenNext := False; { esc out}
-        X1 := X2 - W;
-        Y := Random(CR.Y2 - CR.Y1 - 1) + CR.Y1 + 1;
-        if (((Y - H) div 2) < 0) then H := Y;
-        if (((Y + H) div 2) > SHeight) then H := (SHeight - Y);
-        Y1 := Y - (H div 2);
-        Y2 := Y + H - (H div 2);
-    end;
+        case D of
+            0: begin
+                X2 := CR.X1;
+                if (X2 - W < 1) then W := X2 - 1;
+                if (W < 3) then GenNext := False; { esc out}
+                X1 := X2 - W;
+                Y := Random(CR.Y2 - CR.Y1 - 1) + CR.Y1 + 1;
+                if (Y - (H div 2) < 1) then H := Y;
+                if (Y - (H div 2) + H >= SHeight) then H := (SHeight - Y - 1);
+                Y1 := Y - (H div 2);
+                Y2 := Y1 + H;
+            end;
+        end;
+   end;
 
     if (GenNext) then RoomI := RoomI + 1;
     NextRoom := GenNext;
