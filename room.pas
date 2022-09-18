@@ -9,6 +9,7 @@ begin
          RoomI := 0;
          with Rooms[0] do
          begin
+             Discovered := False;
              X1 := Random(SWidth - UWidth - 1) + 1;
              Y1 := Random(SHeight - UHeight - 1) + 1;
              W := Random(UWidth-LWidth) + LWidth + 1;
@@ -46,7 +47,7 @@ begin
     HitWall := Found;
 end;
 
-function HitDoor(X1, Y1: Integer): Boolean;
+function HitDoor(X1, Y1: Integer): Integer;
 var
     I: Integer;
     Found: Boolean;
@@ -61,7 +62,8 @@ begin
             Break;
         end;
     end;
-    HitDoor := Found;
+
+    If Found then HitDoor := I else HitDoor := -1;
 end;
 
 { Generate another room }
@@ -94,6 +96,7 @@ begin
 
             W := Random(UWidth-LWidth) + LWidth + 1;
             H := Random(UHeight-LHeight) + LHeight + 1;
+            Discovered := False;
 
             GenNext := True;
             case D of

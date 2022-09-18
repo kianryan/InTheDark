@@ -3,12 +3,14 @@
 type
     Room = record
         X1, Y1, X2, Y2: Integer;
+        Discovered: Boolean;
     end;
 
     Door = record
         X, Y: Integer; { pos }
         Room1I : Integer; { index of room 1 }
         Room2I : Integer; { index of room 2 }
+        Opened : Boolean;
     end;
 
     Player = record
