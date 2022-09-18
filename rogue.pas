@@ -1,16 +1,25 @@
 program Rogue;
-uses Crt;
+uses Crt, Math;
 
 type
     Room = record
         X1, Y1, X2, Y2: Integer;
     end;
 
+    Door = record
+        X, Y: Integer; { pos }
+        Room1I : Integer; { index of room 1 }
+        Room2I : Integer; { index of room 2 }
+    end;
+
 var
     Rooms: array[0..10] of Room;
     RoomI: Integer;
-    I: Integer;
 
+    Doors: array[0..40] of Door; { we won't need this many}
+    DoorI: Integer;
+
+    I: Integer;
 
 const
    SWidth = 80;
@@ -21,7 +30,7 @@ const
    UHeight = 10;
    MWidth = 3;
    MHeight = 3;
-   Debug = True;
+   Debug = False;
 
 { Generate the first room }
 procedure FirstRoom;
@@ -162,6 +171,96 @@ begin
     NextRoom := GenNext;
 end;
 
+{ check if door indexes have already been processed }
+function DoorNotFound(Room1, Room2: Integer) : Boolean;
+var
+    Found: Boolean;
+    I: Integer;
+begin
+    Found := False;
+    For I := 0 To DoorI do
+    begin
+        with Doors[DoorI] do
+        begin
+            if ((Room1I = Room1) and (Room2I = Room2)) or
+                ((Room2I = Room1) and (Room1I = Room2)) then
+            begin
+                Found := True;
+                Break;
+            end;
+        end;
+    end;
+    DoorNotFound := not Found;
+end;
+
+function RandomInRange(Min1, Min2, Max1, Max2: Integer) : Integer;
+var
+    AMin, AMax, A: Integer;
+begin
+    AMin := Max(Min1, Min2) + 1;
+    AMax := Min(Max1, Max2) - 1;
+    A := AMax - AMin;
+    RandomInRange := AMin + Random(A);
+end;
+
+{ After room generation, calc where doors can be placed. }
+{ The possibility for doors exist where axis meet. }
+procedure GenerateDoors;
+var
+    CR, TR: Room;
+    I, J: Integer;
+begin
+    DoorI := 0;
+    for I := 0 to RoomI do
+    begin
+        CR := Rooms[I];
+        { compare this room to all rooms previous. }
+        for J := 0 to I - 1 do
+        begin
+            TR := Rooms[J];
+            with Doors[DoorI] do
+            begin
+                DoorI := DoorI + 1; { assume success }
+
+                Room1I := I;
+                Room2I := J;
+
+                { check for collisions before doing anything else }
+                if (DoorNotFound(I, J)) then
+                begin
+                    { see if axis overlap, if they do, then generate a door }
+                    if (CR.X2 = TR.X1) and ((TR.Y1 < CR.Y2) and (TR.Y2 > CR.Y1)) then { E }
+                    begin
+                        X := CR.X2;
+                        Y := RandomInRange(CR.Y1, TR.Y1, CR.Y2, TR.Y2);
+                    end
+                    else if (CR.X1 = TR.X2) and ((TR.Y1 < CR.Y2) and (TR.Y2 > CR.Y1)) then { W }
+                    begin
+                        X := CR.X1;
+                        Y := RandomInRange(CR.Y1, TR.Y1, CR.Y2, TR.Y2);
+                    end
+                    else if (CR.Y2 = TR.Y1) and ((TR.X1 < CR.X2) and (TR.X2 > CR.X1)) then { N }
+                    begin
+                        Y := CR.Y2;
+                        X := RandomInRange(CR.X1, TR.X1, CR.X2, TR.X2);
+                    end
+                    else if (CR.Y1 = TR.Y2) and ((TR.X1 < CR.X2) and (TR.X2 > CR.X1)) then { N }
+                    begin
+                        Y := CR.Y1;
+                        X := RandomInRange(CR.X1, TR.X1, CR.X2, TR.X2);
+                    end
+                    else DoorI := DoorI - 1; { door not found }
+                end
+                else
+                    DoorI := DoorI - 1; { collision }
+            end;
+        end;
+    end;
+
+    DoorI := DoorI - 1;
+
+end;
+
 { Generates new dungeon, resets dungeon variables }
 procedure GenerateDungeon;
 begin
@@ -169,6 +268,7 @@ begin
         FirstRoom;
         while((RoomI < 10) and NextRoom()) do ;
     end;
+    GenerateDoors;
 end;
 
 { Debug print room co-ordinates}
@@ -185,17 +285,29 @@ begin
     WriteLn(Debug.Y2);
 end;
 
+procedure WriteDoor(Debug:Door; L: Integer);
+begin
+    GotoXY(1, L);
+    Write('X: ');
+    Write(Debug.X);
+    Write(' Y: ');
+    Write(Debug.Y);
+    Write(' Room1I: ');
+    Write(Debug.Room1I);
+    Write(' Room2I: ');
+    WriteLn(Debug.Room2I);
+end;
+
 procedure DrawFrame;
 var
-    I: Integer;
     X, Y: Integer;
 begin
     GotoXY(1,1);
-    for I := 1 to SWidth do
+    for X := 1 to SWidth do
     begin
-     GotoXY(I, 1);
+     GotoXY(X, 1);
      Write('*');
-     GotoXY(I, SHeight);
+     GotoXY(X, SHeight);
      Write('*')
     end;
     for Y := 1 to SHeight do
@@ -225,6 +337,15 @@ begin
     end;
 end;
 
+procedure DrawDoor(DD: Door);
+begin
+    with DD do
+    begin
+        GotoXY(X, Y);
+        Write('X');
+    end;
+end;
+
 begin
     Randomize;
     ClrScr;
@@ -232,8 +353,10 @@ begin
     DrawFrame;
     GenerateDungeon;
     for I := 0 to RoomI do DrawRoom(Rooms[I]);
+    for I := 0 to DoorI do DrawDoor(Doors[I]);
 
-    // if (Debug) then for I := 0 to RoomI do WriteRoom(Rooms[I], I + 1);
+    if (Debug) then for I := 0 to RoomI do WriteRoom(Rooms[I], I + 1);
+    if (Debug) then for I := 0 to DoorI do WriteDoor(Doors[I], I + 1);
 
     GotoXY(1,SHeight + 2);
 end.
