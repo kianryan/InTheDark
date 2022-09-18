@@ -6,8 +6,7 @@ uses Crt, Math;
 
 {$I 'types.pas'}
 {$I 'room.pas'}
-{$I 'player.pas'}
 {$I 'graphics.pas'}
-{$I 'input.pas'}
 {$I 'debug.pas'}
+{$I 'player.pas'}
 {$I 'main.pas'}

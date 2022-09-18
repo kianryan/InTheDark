@@ -47,3 +47,15 @@ begin
     end;
     GotoXY(1,1);
 end;
+
+procedure DrawPlayer;
+begin
+    with CPlayer do begin
+        GotoXY(DX, DY);
+        Write(' ');
+        GotoXY(X, Y);
+        Write('@');
+        DX := X; { Set new position on screen }
+        DY := Y;
+    end;
+end;

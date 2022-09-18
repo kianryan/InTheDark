@@ -25,6 +25,45 @@ begin
         (SR.Y1 < DR.Y2) and (SR.Y2 > DR.Y1);
 end;
 
+{ Checks each room to see if X,Y intersects a wall }
+{ We can make this more efficient by tracking object/room location }
+function HitWall(X, Y: Integer): Boolean;
+var
+    I : Integer;
+    Found: Boolean;
+begin
+    Found := False;
+    For I := 0 To RoomI do
+    with Rooms[I] do
+    begin
+        if (((X >= X1) and (X <= X2)) and ((Y = Y1) or (Y = Y2))) or
+        (((Y >= Y1) and (Y <= Y2)) and ((X = X1) or (X = X2))) then
+        begin
+            Found := True;
+            Break;
+        end;
+    end;
+    HitWall := Found;
+end;
+
+function HitDoor(X1, Y1: Integer): Boolean;
+var
+    I: Integer;
+    Found: Boolean;
+begin
+    Found := False;
+    For I := 0 To DoorI do
+    with Doors[I] do
+    begin
+        if (X = X1) and (Y = Y1) then
+        begin
+            Found := True;
+            Break;
+        end;
+    end;
+    HitDoor := Found;
+end;
+
 { Generate another room }
 { Will return False if a room can no longer be generated. }
 function NextRoom : Boolean;

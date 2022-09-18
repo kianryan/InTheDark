@@ -11,12 +11,20 @@ type
         Room2I : Integer; { index of room 2 }
     end;
 
+    Player = record
+        X, Y: Integer;
+        DX, DY: Integer; { last disp X, Y }
+    end;
+
 var
     Rooms: array[0..10] of Room;
     RoomI: Integer;
 
     Doors: array[0..40] of Door; { we won't need this many}
     DoorI: Integer;
+
+    D: Integer; { player direction }
+    CPlayer: Player;
 
     I: Integer;
 
