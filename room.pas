@@ -5,18 +5,18 @@ procedure FirstRoom;
 var
     W, H: Integer;
 begin
-         { Generate first room dims }
-         RoomI := 0;
-         with Rooms[0] do
-         begin
-             Discovered := False;
-             X1 := Random(SWidth - UWidth - 1) + 1;
-             Y1 := Random(SHeight - UHeight - 1) + 1;
-             W := Random(UWidth-LWidth) + LWidth + 1;
-             H := Random(UHeight-LHeight) + LHeight + 1;
-             X2 := X1 + W;
-             Y2 := Y1 + H;
-        end;
+	{ Generate first room dims }
+	RoomI := 0;
+	with Rooms[0] do
+	begin
+		Discovered := False;
+		X1 := Random(SWidth - UWidth - 1) + 1;
+		Y1 := Random(SHeight - UHeight - 1) + 1;
+		W := Random(UWidth-LWidth) + LWidth + 1;
+		H := Random(UHeight-LHeight) + LHeight + 1;
+		X2 := X1 + W;
+		Y2 := Y1 + H;
+	end;
 end;
 
 { Check to see if there's an overlap between a room and a set of co-ords }

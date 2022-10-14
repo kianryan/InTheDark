@@ -27,3 +27,22 @@ begin
     WriteLn(Debug.Room2I);
 end;
 
+
+procedure WriteItem(Debug:Item; L:Integer);
+begin
+	GotoXY(1, L);
+	Write('X: ');
+	Write(Debug.X);
+	Write(' Y: ');
+	Write(Debug.Y);
+	Write(' L: ');
+	Write(Debug.L);
+	Write(' D1: ');
+	Write(Debug.D1);
+	Write(' D2: ');
+	Write(Debug.D2);
+	Write(' ');
+	Write(Verb[Debug.D2]);
+	Write(' ');
+	WriteLn(Noun[Debug.D1]);
+end;
