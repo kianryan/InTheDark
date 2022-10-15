@@ -109,7 +109,7 @@ begin
 	GotoXY(2, SHeight);
 	If (L = 0) Then
 		Write('It is dark, you are likely eaten by a grue.')
-	Else If (L = 1) Then begin
+	Else If (L < 5) Then begin
 		Write('Your ');
 		Write(Noun[Items[CItem].D1]);
 		Write(' grows dim.  It will be dark soon.');

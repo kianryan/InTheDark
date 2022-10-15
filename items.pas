@@ -23,12 +23,12 @@ begin
 			    else begin DL := 1; DU := 3; end;
 
 			    With Items[ItemI], Rooms[I] do begin
-				    X := Random(X2 - X1) + X1;
-				    Y := Random(Y2 - Y1) + Y1;
+				    X := Random(X2 - X1 - 2) + X1 + 1;
+				    Y := Random(Y2 - Y1 - 2) + Y1 + 1;
 					Room := I;
 					IType := 1; { light }
 					Taken := False;
-					L := Random(DU - DL) + DL;
+					L := (Random(DU - DL) + DL) * 4; { more! }
 					T := 0;
 					D1 := Random(DU - DL) + DL;
 					D2 := Random(10);
