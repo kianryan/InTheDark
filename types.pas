@@ -15,6 +15,7 @@ type
 
     Item = record
 	X, Y: Integer; { pos }
+	Room: Integer; { idx of room }
 	IType: Integer; { no enum in TP3 }
 	Taken: Boolean;
 	L: Integer; { duration of light }
@@ -37,6 +38,7 @@ var
 
     Items: array[0..30] of Item; { up to 3 items per room }
     ItemI: Integer;
+    CItem: Integer;  { last item picked up }
 
     D: Integer; { player direction }
     CPlayer: Player;
@@ -44,6 +46,7 @@ var
     I: Integer;
 
     L: Integer; { number of turns remaining with light }
+    T: Integer; { total treasure taken }
 
     Noun: array[0..10] of String;
     Verb: array[0..10] of String;
@@ -57,7 +60,7 @@ const
    UHeight = 10;
    MWidth = 3;
    MHeight = 3;
-   Debug = True;
+   Debug = False;
 
 { Init dict for nouns and verbs }
 procedure SetupDict;

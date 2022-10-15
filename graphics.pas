@@ -40,12 +40,30 @@ begin
     end;
 end;
 
+procedure DrawItem(DI: Item);
+begin;
+	with DI do
+	begin
+		if Rooms[Room].Discovered and (not Taken) then
+		begin
+			GotoXY(X, Y);
+			Write('#');
+		end
+		else if Taken then
+		begin
+			GotoXY(X, Y);
+			Write(' ');
+		end
+	end;
+end;
+
 procedure DrawDungeon;
 var
     I: Integer;
 begin
     for I := 0 to RoomI do DrawRoom(Rooms[I]);
     for I := 0 to DoorI do DrawDoor(Doors[I]);
+	for I := 0 to ItemI do DrawItem(Items[I]);
 end;
 
 procedure DrawFrame;
@@ -80,4 +98,27 @@ begin
         DX := X; { Set new position on screen }
         DY := Y;
     end;
+end;
+
+procedure DrawStatus;
+var
+	I: Integer;
+begin
+	GotoXY(2, SHeight);
+	For I := 1 to SWidth - 1 do Write('*');
+	GotoXY(2, SHeight);
+	If (L = 0) Then
+		Write('It is dark, you are likely eaten by a grue.')
+	Else If (L = 1) Then begin
+		Write('Your ');
+		Write(Noun[Items[CItem].D1]);
+		Write(' grows dim.  It will be dark soon.');
+    end
+	Else begin
+		Write('A ');
+		Write(Verb[Items[CItem].D2]);
+		Write(' ');
+		Write(Noun[Items[CItem].D1]);
+		Write(' lights your way.  For now.');
+	end;
 end;

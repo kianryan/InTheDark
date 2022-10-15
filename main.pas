@@ -22,6 +22,7 @@ begin
     begin
         if (MovePlayer) then DrawDungeon;
         DrawPlayer;
+		DrawStatus;
     end;
 
     GotoXY(1,SHeight + 2);

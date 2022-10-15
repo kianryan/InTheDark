@@ -23,6 +23,7 @@ function MovePlayer : Boolean;
 var
     X, Y: Integer;
     FoundDoorI: Integer;
+	FoundItemI: Integer;
     Redraw, Valid: Boolean;
 begin
     X := CPlayer.X;
@@ -57,6 +58,15 @@ begin
         if Valid then begin
             CPlayer.X := X;
             CPlayer.Y := Y;
+
+			If (L > 0) then L := L - 1;
+
+			{ check for items }
+			FoundItemI := HitItem(X, Y);
+			if FoundItemI <> -1 then begin
+				TakeItem(FoundItemI);
+				Redraw := True;
+			end;
         end;
     end;
 
