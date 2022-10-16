@@ -7,15 +7,15 @@ var
 begin
     I := Random(RoomI);
 
-    with CPlayer do
-        with Rooms[I] do
-            begin
-                Discovered := True;
-                DX := Random(X2 - X1 - 1) + X1 + 1;
-                DY := Random(Y2 - Y1 - 1) + Y1 + 1;
-                X := DX;
-                Y := DY; { first play - no tidy }
-            end;
+    with CPlayer, Rooms[I] do begin
+		Discovered := True;
+		DX := Random(X2 - X1 - 1) + X1 + 1;
+		DY := Random(Y2 - Y1 - 1) + Y1 + 1;
+		X := DX;
+		Y := DY; { first play - no tidy }
+    end;
+
+	TakeItem(0);
 end;
 
 { move player, report on if redraw is necessary }
@@ -59,13 +59,15 @@ begin
             CPlayer.X := X;
             CPlayer.Y := Y;
 
-			If (L > 0) then L := L - 1;
-
 			{ check for items }
 			FoundItemI := HitItem(X, Y);
 			if FoundItemI <> -1 then begin
 				TakeItem(FoundItemI);
 				Redraw := True;
+			end
+			else begin
+				If (L > 0) then L := L - 1;
+				If L = 0 Then Redraw := True; { Hide items }
 			end;
         end;
     end;

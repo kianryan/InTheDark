@@ -46,3 +46,18 @@ begin
 	Write(' ');
 	WriteLn(Noun[Debug.D1]);
 end;
+
+procedure WriteMonster(Debug:Monster; L:Integer);
+begin
+    GotoXY(1, L);
+	Write('X: ');
+	Write(Debug.X);
+	Write(' Y: ');
+	Write(Debug.Y);
+	Write(' DX: ');
+	Write(Debug.DX);
+	Write(' DY: ');
+	Write(Debug.DY);
+	Write(' Room: ');
+	WriteLn(Debug.Room);
+end;

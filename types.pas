@@ -29,16 +29,25 @@ type
         DX, DY: Integer; { last disp X, Y }
     end;
 
+    Monster = record
+	X, Y: Integer;
+	DX, DY: Integer; { last disp X, Y }
+	Room: Integer;
+    end;
+
 var
     Rooms: array[0..10] of Room;
     RoomI: Integer;
 
-    Doors: array[0..40] of Door; { we won't need this many}
+    Doors: array[0..40] of Door; { we won't need this many }
     DoorI: Integer;
 
-    Items: array[0..30] of Item; { up to 3 items per room }
+    Items: array[0..50] of Item; { up to 3 items per room }
     ItemI: Integer;
     CItem: Integer;  { last item picked up }
+
+    Monsters: array[0..10] of Monster;
+    MonsterI: Integer;
 
     D: Integer; { player direction }
     CPlayer: Player;

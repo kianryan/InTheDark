@@ -41,7 +41,7 @@ begin
 end;
 
 procedure DrawItem(DI: Item);
-begin;
+begin
 	with DI do
 	begin
 		if Rooms[Room].Discovered and (not Taken) then
@@ -57,13 +57,43 @@ begin;
 	end;
 end;
 
+procedure HideItem(DI: Item);
+begin
+	with DI do
+	begin
+	    GotoXY(X, Y);
+	    Write(' ');
+	end;
+end;
+
+
+procedure DrawMonster(DM: Monster; Glyph: String);
+begin
+	with DM do
+	begin
+        GotoXY(DX, DY);
+        Write(' ');
+        GotoXY(X, Y);
+        Write(Glyph);
+        DX := X; { Set new position on screen }
+        DY := Y;
+	end;
+end;
+
 procedure DrawDungeon;
 var
     I: Integer;
 begin
     for I := 0 to RoomI do DrawRoom(Rooms[I]);
     for I := 0 to DoorI do DrawDoor(Doors[I]);
-	for I := 0 to ItemI do DrawItem(Items[I]);
+
+	if L = 0 then begin
+	    for I := 0 to ItemI do HideItem(Items[I]);
+	    for I := 0 to MonsterI do DrawMonster(Monsters[I], ' ');
+	end else begin
+		for I := 0 to ItemI do DrawItem(Items[I]);
+		for I := 0 to MonsterI do DrawMonster(Monsters[I], '%');
+	end;
 end;
 
 procedure DrawFrame;
