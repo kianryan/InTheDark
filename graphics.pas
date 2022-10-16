@@ -66,10 +66,9 @@ begin
 	end;
 end;
 
-
-procedure DrawMonster(DM: Monster; Glyph: String);
+procedure DrawMonster(I: Integer; Glyph: String);
 begin
-	with DM do
+	with Monsters[I] do
 	begin
         GotoXY(DX, DY);
         Write(' ');
@@ -78,6 +77,16 @@ begin
         DX := X; { Set new position on screen }
         DY := Y;
 	end;
+end;
+
+procedure DrawMonsters;
+begin
+	if L = 0 then begin
+	    for I := 0 to MonsterI do DrawMonster(I, ' ');
+	end else begin
+	    for I := 0 to MonsterI do DrawMonster(I, '%');
+	end;
+
 end;
 
 procedure DrawDungeon;
@@ -89,10 +98,8 @@ begin
 
 	if L = 0 then begin
 	    for I := 0 to ItemI do HideItem(Items[I]);
-	    for I := 0 to MonsterI do DrawMonster(Monsters[I], ' ');
 	end else begin
 		for I := 0 to ItemI do DrawItem(Items[I]);
-		for I := 0 to MonsterI do DrawMonster(Monsters[I], '%');
 	end;
 end;
 

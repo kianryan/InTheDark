@@ -14,6 +14,7 @@ begin
     DrawFrame;
     DrawDungeon;
     DrawPlayer;
+	DrawMonsters;
     DrawStatus;
 
 	if (Debug) then for I := 0 to RoomI do WriteRoom(Rooms[I], I + 1);
@@ -23,8 +24,10 @@ begin
 
     while (NextMove) do
     begin
+		MoveMonsters;
         if (MovePlayer) then DrawDungeon;
         DrawPlayer;
+		DrawMonsters;
 		DrawStatus;
     end;
 
