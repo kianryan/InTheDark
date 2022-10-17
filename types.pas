@@ -27,12 +27,13 @@ type
     Player = record
         X, Y: Integer;
         DX, DY: Integer; { last disp X, Y }
+		Room: Integer;
     end;
 
     Monster = record
-	X, Y: Integer;
-	DX, DY: Integer; { last disp X, Y }
-	Room: Integer;
+    	X, Y: Integer;
+    	DX, DY: Integer; { last disp X, Y }
+    	Room: Integer;
     end;
 
 var

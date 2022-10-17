@@ -36,7 +36,7 @@ end;
 { in a room without a player }
 { a monster will move in a random direction }
 
-procedure MoveMonster(I: Integer);
+procedure MoveRandom(I: Integer);
 var
 	Tries: Integer; { 4 tries/ cardinalities }
 	Valid : Boolean;
@@ -76,11 +76,42 @@ begin
     end;
 end;
 
+{ Attempt to move closer to the player char }
+
+{ D: 1 - towards, -1 away }
+procedure MoveToPlayer(I: Integer; D: Integer);
+var
+    CX, CY: Integer; { change X/Y }
+	TX, TY: Integer; { try X/Y }
+begin
+    with Monsters[I] do begin
+		CX := X - CPlayer.X;
+		CY := Y - CPlayer.Y;
+
+		{ work out which is the greater disparity and move closer towards the player }
+		TX := X;
+		TY := Y;
+		if Abs(CX) > Abs(CY) then
+			If CX > 0 Then TX := X - D Else TX := X + D
+		else
+			If CY > 0 Then TY := Y - D Else TY := Y + D;
+
+		If (not HitWall(TX, TY)) and (HitItem(TX, TY) = -1) then begin
+				X := TX;
+				Y := TY;
+		end
+		else MoveRandom(I);
+    end;
+end;
+
 procedure MoveMonsters;
 var
 	I: Integer;
+	D: Integer; { Dir of monster movement }
 begin
-	For I := 0 To MonsterI do MoveMonster(I);
+	If L = 0 then D := 1 else D := -1;
+	For I := 0 To MonsterI do
+		if Monsters[I].Room = CPlayer.Room then MoveToPlayer(I, D) else MoveRandom(I)
 end;
 
 

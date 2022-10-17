@@ -66,6 +66,25 @@ begin
     If Found then HitDoor := I else HitDoor := -1;
 end;
 
+function HitRoom(X, Y: Integer): Integer;
+var
+    I: Integer;
+    Found: Boolean;
+begin
+    Found := False;
+    For I := 0 To RoomI do
+    with Rooms[I] do
+    begin
+		if (X > X1) and (X < X2) and (Y > Y1) and (Y < Y2) then
+        begin
+            Found := True;
+            Break;
+        end;
+    end;
+
+    If Found then HitRoom := I else HitRoom := -1;
+end;
+
 { Generate another room }
 { Will return False if a room can no longer be generated. }
 function NextRoom : Boolean;

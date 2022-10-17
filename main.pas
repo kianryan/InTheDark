@@ -22,6 +22,8 @@ begin
     if (Debug) then for I := 0 to ItemI do WriteItem(Items[I], I + 1);
     if (Debug) then for I := 0 to MonsterI do WriteMonster(Monsters[I], I + 1);
 
+	L := 32767;
+
     while (NextMove) do
     begin
 		MoveMonsters;

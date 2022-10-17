@@ -58,6 +58,7 @@ begin
         if Valid then begin
             CPlayer.X := X;
             CPlayer.Y := Y;
+			CPlayer.Room := HitRoom(X, Y);
 
 			{ check for items }
 			FoundItemI := HitItem(X, Y);
