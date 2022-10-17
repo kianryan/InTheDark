@@ -26,10 +26,9 @@ begin
 
     while ((MDist <> 0) and NextMove) do
     begin
-		MoveMonsters;
         if (MovePlayer) then DrawDungeon;
-		DrawMonsters;
         DrawPlayer;
+		DrawMonsters;
 		MDist := HitMonster(CPlayer.X, CPlayer.Y);
 		DrawStatus;
     end;

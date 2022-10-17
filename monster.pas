@@ -89,19 +89,21 @@ begin
 		CX := X - CPlayer.X;
 		CY := Y - CPlayer.Y;
 
-		{ work out which is the greater disparity and move closer towards the player }
-		TX := X;
-		TY := Y;
-		if Abs(CX) > Abs(CY) then
-			If CX > 0 Then TX := X - D Else TX := X + D
-		else
-			If CY > 0 Then TY := Y - D Else TY := Y + D;
-
-		If (not HitWall(TX, TY)) and (HitItem(TX, TY) = -1) then begin
-				X := TX;
-				Y := TY;
-		end
-		else MoveRandom(I);
+		if not ((CX = 0) and (CY = 0)) then begin
+    		{ work out which is the greater disparity and move closer towards the player }
+    		TX := X;
+    		TY := Y;
+    		if Abs(CX) > Abs(CY) then
+    			If CX > 0 Then TX := X - D Else TX := X + D
+    		else
+    			If CY > 0 Then TY := Y - D Else TY := Y + D;
+    
+    		If (not HitWall(TX, TY)) and (HitItem(TX, TY) = -1) then begin
+    				X := TX;
+    				Y := TY;
+    		end
+    		else MoveRandom(I);
+	    end;
     end;
 end;
 

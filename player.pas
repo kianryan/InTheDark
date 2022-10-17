@@ -70,6 +70,8 @@ begin
 				If (L > 0) then L := L - 1;
 				If L = 0 Then Redraw := True; { Hide items }
 			end;
+
+			MoveMonsters;
         end;
     end;
 
