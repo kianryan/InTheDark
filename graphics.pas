@@ -80,13 +80,14 @@ begin
 end;
 
 procedure DrawMonsters;
+var
+	Glyph: String;
 begin
-	if L = 0 then begin
-	    for I := 0 to MonsterI do DrawMonster(I, 'M');
-	end else begin
-	    for I := 0 to MonsterI do DrawMonster(I, '%');
-	end;
-
+	for I := 0 to MonsterI do begin
+		Glyph := ' ';
+		if (Monsters[I].Room = CPlayer.Room) and (L > 0) then Glyph := '%';
+		DrawMonster(I, Glyph);
+	end		
 end;
 
 procedure DrawDungeon;
@@ -147,7 +148,7 @@ begin
 
 	If MDist <> -1 Then begin
 	    If (MDist = 0) and (L = 0) Then
-		    Write('In the dark, the the talons of the grue drag to your end.')
+		    Write('In the dark, the the talons of the grue drag you to your end.')
 	    Else If MDist = 0 Then
 		    Write('In the light, you bump in to the grue. It extinguishes your light, and you.')
 	    Else If (MDist < 2) and (L = 0) Then

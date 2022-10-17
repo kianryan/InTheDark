@@ -13,8 +13,8 @@ begin
 
     DrawFrame;
     DrawDungeon;
-	DrawMonsters;
     DrawPlayer;
+	DrawMonsters;
     DrawStatus;
 
 	if (Debug) then for I := 0 to RoomI do WriteRoom(Rooms[I], I + 1);

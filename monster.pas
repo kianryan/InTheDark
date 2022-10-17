@@ -135,10 +135,6 @@ begin
 				GotoXY(1, 1);
 				CX := Abs(X1 - X);
 				CY := Abs(Y1 - Y);
-				Write('CX: ');
-				Write(CX);
-				Write(' CY: ');
-				Write(CY);
 				If (CX < 4) and (CY < 4) then begin
 					Found := True;
 					Break;
