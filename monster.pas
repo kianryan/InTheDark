@@ -6,6 +6,7 @@ var
 	I: Integer;
     Valid: Boolean;
 begin
+	MDist := -1;
 	MonsterI := 0;
 
 	For I := 0 to RoomI do begin
@@ -18,7 +19,7 @@ begin
     			    X := DX;
     			    Y := DY;
     			    Room := I; { monsters stay in room }
-					Valid := (X <> CPlayer.X) and (Y <> CPlayer.Y) and 
+					Valid := (X <> CPlayer.X) and (Y <> CPlayer.Y) and
     					(HitItem(X, Y) = -1);
     	        end;
 			until Valid;
@@ -66,13 +67,13 @@ begin
             end;
 		    Valid := (not HitWall(TX, TY)) and (HitItem(TX, TY) = -1);
 
-		until Valid or (Tries > 4); 
+		until Valid or (Tries > 4);
 
 		if Valid then begin
 			X := TX;
 			Y := TY;
 		end;
-    { end; } 
+    { end; }
     end;
 end;
 
@@ -114,4 +115,39 @@ begin
 		if Monsters[I].Room = CPlayer.Room then MoveToPlayer(I, D) else MoveRandom(I)
 end;
 
+
+{ check for collisions with monsters }
+{ return distance to monster if < 4 }
+function HitMonster(X1, Y1: Integer): Integer;
+var
+	I: Integer;
+	CX, CY: Integer;
+	Found: Boolean;
+begin
+	Found := False;
+	For I := 0 To MonsterI do begin
+		with Monsters[I] do
+		begin
+			{ only care if same room }
+			if HitRoom(X1, Y1) = Room then begin
+				GotoXY(1, 1);
+				CX := Abs(X1 - X);
+				CY := Abs(Y1 - Y);
+				Write('CX: ');
+				Write(CX);
+				Write(' CY: ');
+				Write(CY);
+				If (CX < 4) and (CY < 4) then begin
+					Found := True;
+					Break;
+				end;
+			end;
+		end;
+	end;
+
+	If Found Then
+		HitMonster := Max(CX, CY)
+	Else
+		HitMonster := -1;
+end;
 

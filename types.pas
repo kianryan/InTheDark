@@ -52,6 +52,7 @@ var
 
     D: Integer; { player direction }
     CPlayer: Player;
+    MDist: Integer; { dist to monster }
 
     I: Integer;
 

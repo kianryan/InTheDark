@@ -13,8 +13,8 @@ begin
 
     DrawFrame;
     DrawDungeon;
-    DrawPlayer;
 	DrawMonsters;
+    DrawPlayer;
     DrawStatus;
 
 	if (Debug) then for I := 0 to RoomI do WriteRoom(Rooms[I], I + 1);
@@ -24,12 +24,13 @@ begin
 
 	L := 32767;
 
-    while (NextMove) do
+    while ((MDist <> 0) and NextMove) do
     begin
 		MoveMonsters;
         if (MovePlayer) then DrawDungeon;
-        DrawPlayer;
 		DrawMonsters;
+        DrawPlayer;
+		MDist := HitMonster(CPlayer.X, CPlayer.Y);
 		DrawStatus;
     end;
 

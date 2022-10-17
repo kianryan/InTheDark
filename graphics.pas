@@ -71,7 +71,7 @@ begin
 	with Monsters[I] do
 	begin
         GotoXY(DX, DY);
-        Write(' ');
+		If not ((DX = CPlayer.X) and (DY = CPlayer.Y)) then Write(' ');
         GotoXY(X, Y);
         Write(Glyph);
         DX := X; { Set new position on screen }
@@ -82,7 +82,7 @@ end;
 procedure DrawMonsters;
 begin
 	if L = 0 then begin
-	    for I := 0 to MonsterI do DrawMonster(I, ' ');
+	    for I := 0 to MonsterI do DrawMonster(I, 'M');
 	end else begin
 	    for I := 0 to MonsterI do DrawMonster(I, '%');
 	end;
@@ -144,18 +144,29 @@ begin
 	GotoXY(2, SHeight);
 	For I := 1 to SWidth - 1 do Write('*');
 	GotoXY(2, SHeight);
-	If (L = 0) Then
-		Write('It is dark, you are likely eaten by a grue.')
-	Else If (L < 5) Then begin
-		Write('Your ');
-		Write(Noun[Items[CItem].D1]);
-		Write(' grows dim.  It will be dark soon.');
-    end
+
+	If ((MDist = 0) and (L = 0)) Then
+		Write('In the dark, the the talons of the grue drag to your end.')
+	Else If (MDist = 0) Then
+		Write('In the light, you bump in to the grue. It extinguishes your light, and you.')
+	Else If ((MDist < 2) and (L = 0)) Then
+		Write('You can hear the grue breathing down your neck.')
+	Else If ((MDist < 4) and (L = 0)) Then
+		Write('You can hear the talons of the grue tapping the tiles nearby.')
 	Else begin
-		Write('A ');
-		Write(Verb[Items[CItem].D2]);
-		Write(' ');
-		Write(Noun[Items[CItem].D1]);
-		Write(' lights your way.  For now.');
+			If (L = 0) Then
+				Write('It is dark, you are likely eaten by a grue.')
+			Else If (L < 5) Then begin
+				Write('Your ');
+				Write(Noun[Items[CItem].D1]);
+				Write(' grows dim.  It will be dark soon.');
+			end
+			Else begin
+				Write('A ');
+				Write(Verb[Items[CItem].D2]);
+				Write(' ');
+				Write(Noun[Items[CItem].D1]);
+				Write(' lights your way.  For now.');
+			end;
 	end;
 end;
