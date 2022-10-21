@@ -90,7 +90,13 @@ end;
 procedure TakeItem(I: Integer);
 begin
 		Items[I].Taken := True;
-		if Items[I].L > 0 then L := Items[I].L;
-		T := T + Items[I].T;
-		CItem := I; { set ptr to current item for dsp }
+		if Items[I].L > 0 then begin
+			L := Items[I].L;
+			CLight := I;
+		end;
+		if Items[I].T > 0 then begin
+			T := T + Items[I].T;
+			CTreasure := I;
+			CT := 3;
+		end;
 end;

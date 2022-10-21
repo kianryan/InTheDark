@@ -153,29 +153,39 @@ begin
 	For I := 1 to SWidth - 1 do Write('*');
 	GotoXY(2, SHeight);
 
-	If MDist <> -1 Then begin
-	    If (MDist = 0) and (L = 0) Then
+	if MDist <> -1 then begin
+	    if (MDist = 0) and (L = 0) then
 		    Write('In the dark, the the talons of the grue drag you to your end.')
-	    Else If MDist = 0 Then
+	    else if MDist = 0 then
 		    Write('In the light, you bump in to the grue. It extinguishes your light, and you.')
-	    Else If (MDist < 2) and (L = 0) Then
+	    else if (MDist < 2) and (L = 0) then
 		    Write('You can hear the grue breathing down your neck.')
-	    Else If ((MDist < 4) and (L = 0)) Then
+	    else if ((MDist < 4) and (L = 0)) then
 		    Write('You can hear the talons of the grue tapping the tiles nearby.')
 	end
-    Else begin
-	    If (L = 0) Then
+	else if CT > 0 then 
+	begin
+		Write('You pick up a ');
+		Write(Adjective[Items[CTreasure].D2]);
+		Write(' ');
+		Write(Noun[Items[CTreasure].D1]);
+		Write('.');
+		CT := CT - 1;
+	end
+	else 
+	begin
+	    if (L = 0) then
 	        Write('It is dark, you are likely eaten by a grue.')
-		Else If (L < 5) Then begin
+		else if (L < 5) then begin
 			Write('Your ');
-			Write(Noun[Items[CItem].D1]);
+			Write(Noun[Items[CLight].D1]);
 			Write(' grows dim.  It will be dark soon.');
 		end
-		Else begin
+		else begin
 			Write('A ');
-			Write(Adjective[Items[CItem].D2]);
+			Write(Adjective[Items[CLight].D2]);
 			Write(' ');
-			Write(Noun[Items[CItem].D1]);
+			Write(Noun[Items[CLight].D1]);
 			Write(' lights your way.  For now.');
 		end;
 	end;

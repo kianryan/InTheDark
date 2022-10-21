@@ -46,7 +46,8 @@ var
 
     Items: array[0..50] of Item; { up to 3 items per room }
     ItemI: Integer;
-    CItem: Integer;  { last item picked up }
+    CLight: Integer;  { last light picked up }
+    CTreasure: Integer;  { last light picked up }
 
     Monsters: array[0..10] of Monster;
     MonsterI: Integer;
@@ -60,6 +61,7 @@ var
     L: Integer; { number of turns remaining with light }
     T: Integer; { total treasure taken }
 	DT: Integer; { total treasure in dungeon }
+	CT: Integer; { turns to display treasure for }
 
     Noun: array[0..20] of String;
     Adjective: array[0..20] of String;
