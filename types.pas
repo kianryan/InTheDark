@@ -59,9 +59,10 @@ var
 
     L: Integer; { number of turns remaining with light }
     T: Integer; { total treasure taken }
+	DT: Integer; { total treasure in dungeon }
 
-    Noun: array[0..10] of String;
-    Verb: array[0..10] of String;
+    Noun: array[0..20] of String;
+    Adjective: array[0..20] of String;
 
 const
    SWidth = 80;
@@ -88,14 +89,36 @@ begin
     Noun[8] := 'torch';
     Noun[9] := 'brass lantern'; { Bigger light }
 
-    Verb[0] := 'glimmering'; { All glimmer/shimmer/etc. }
-    Verb[1] := 'shimmering';
-    Verb[2] := 'bright';
-    Verb[3] := 'golden';
-    Verb[4] := 'sparkling';
-    Verb[5] := 'battery powered';
-    Verb[6] := 'radiant';
-    Verb[7] := 'luminos';
-    Verb[8] := 'flashing';
-    Verb[9] := 'brilliant';
+	Noun[10] := 'painting';
+	Noun[11] := 'egg';
+	Noun[12] := 'jewel';
+	Noun[13] := 'belt buckle';
+	Noun[14] := 'casket';
+	Noun[15] := 'crystal skull';
+	Noun[16] := 'pearl';
+	Noun[17] := 'piece of eight';
+	Noun[18] := 'fish scale';
+	Noun[19] := 'carpenter''s chalice';
+
+    Adjective[0] := 'glimmering'; { All glimmer/shimmer/etc. }
+    Adjective[1] := 'shimmering';
+    Adjective[2] := 'bright';
+    Adjective[3] := 'golden';
+    Adjective[4] := 'sparkling';
+    Adjective[5] := 'battery powered';
+    Adjective[6] := 'radiant';
+    Adjective[7] := 'luminos';
+    Adjective[8] := 'flashing';
+    Adjective[9] := 'brilliant';
+
+	Adjective[10] := 'wooden';
+	Adjective[11] := 'illustrated';
+	Adjective[12] := 'golden';
+	Adjective[13] := 'bejewled';
+	Adjective[14] := 'plain';
+	Adjective[15] := 'resplendant';
+	Adjective[16] := 'ghostly';
+	Adjective[17] := 'oozing';
+	Adjective[18] := 'gigantic';
+	Adjective[19] := 'clockwork';
 end;

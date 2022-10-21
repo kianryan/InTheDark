@@ -47,7 +47,10 @@ begin
 		if Rooms[Room].Discovered and (not Taken) then
 		begin
 			GotoXY(X, Y);
-			Write('#');
+			case (IType) of
+				1: write('#');
+				2: write('£');
+			end;
 		end
 		else if Taken then
 		begin
@@ -93,7 +96,6 @@ end;
 procedure DrawDungeon;
 var
     I: Integer;
-	RV: Boolean;
 begin
     for I := 0 to RoomI do begin
 		Rooms[I].ShowContents := CanSee(CPlayer.Room, I);
@@ -171,10 +173,20 @@ begin
 		end
 		Else begin
 			Write('A ');
-			Write(Verb[Items[CItem].D2]);
+			Write(Adjective[Items[CItem].D2]);
 			Write(' ');
 			Write(Noun[Items[CItem].D1]);
 			Write(' lights your way.  For now.');
 		end;
 	end;
+end;
+
+procedure DrawScore;
+begin
+	GotoXY(SWidth-5, SHeight);
+	Write('*****');
+	GotoXY(SWidth-5, SHeight);
+	Write(T);
+	Write('/');
+	Write(DT);
 end;

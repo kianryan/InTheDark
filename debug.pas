@@ -42,7 +42,7 @@ begin
 	Write(' D2: ');
 	Write(Debug.D2);
 	Write(' ');
-	Write(Verb[Debug.D2]);
+	Write(Adjective[Debug.D2]);
 	Write(' ');
 	WriteLn(Noun[Debug.D1]);
 end;
