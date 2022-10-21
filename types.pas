@@ -4,6 +4,7 @@ type
     Room = record
         X1, Y1, X2, Y2: Integer;
         Discovered: Boolean;
+		ShowContents: Boolean;
     end;
 
     Door = record
@@ -14,14 +15,14 @@ type
     end;
 
     Item = record
-	X, Y: Integer; { pos }
-	Room: Integer; { idx of room }
-	IType: Integer; { no enum in TP3 }
-	Taken: Boolean;
-	L: Integer; { duration of light }
-	T: Integer; { add to treasure }
-	D1: Integer; { desc idx 1 }
-	D2: Integer; { desc idx 2 }
+	    X, Y: Integer; { pos }
+	    Room: Integer; { idx of room }
+	    IType: Integer; { no enum in TP3 }
+	    Taken: Boolean;
+	    L: Integer; { duration of light }
+	    T: Integer; { add to treasure }
+	    D1: Integer; { desc idx 1 }
+	    D2: Integer; { desc idx 2 }
     end;
 
     Player = record

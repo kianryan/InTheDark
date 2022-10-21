@@ -85,7 +85,7 @@ var
 begin
 	for I := 0 to MonsterI do begin
 		Glyph := ' ';
-		if (Monsters[I].Room = CPlayer.Room) and (L > 0) then Glyph := '%';
+		if (Rooms[Monsters[I].Room].ShowContents) and (L > 0) then Glyph := '%';
 		DrawMonster(I, Glyph);
 	end		
 end;
@@ -93,14 +93,19 @@ end;
 procedure DrawDungeon;
 var
     I: Integer;
+	RV: Boolean;
 begin
-    for I := 0 to RoomI do DrawRoom(Rooms[I]);
+    for I := 0 to RoomI do begin
+		Rooms[I].ShowContents := CanSee(CPlayer.Room, I);
+		DrawRoom(Rooms[I]);
+	end;
     for I := 0 to DoorI do DrawDoor(Doors[I]);
 
-	if L = 0 then begin
-	    for I := 0 to ItemI do HideItem(Items[I]);
-	end else begin
-		for I := 0 to ItemI do DrawItem(Items[I]);
+	for I := 0 to ItemI do begin
+		if (not Rooms[Items[I].Room].ShowContents) or (L = 0) then
+			HideItem(Items[I])
+		else
+			DrawItem(Items[I]);
 	end;
 end;
 

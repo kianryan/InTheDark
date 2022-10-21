@@ -13,6 +13,7 @@ begin
 		DY := Random(Y2 - Y1 - 1) + Y1 + 1;
 		X := DX;
 		Y := DY; { first play - no tidy }
+		Room := I;
     end;
 
 	TakeItem(0);
@@ -25,6 +26,7 @@ var
     FoundDoorI: Integer;
 	FoundItemI: Integer;
     Redraw, Valid: Boolean;
+	NewRoom: Integer;
 begin
     X := CPlayer.X;
     Y := CPlayer.Y;
@@ -58,7 +60,13 @@ begin
         if Valid then begin
             CPlayer.X := X;
             CPlayer.Y := Y;
-			CPlayer.Room := HitRoom(X, Y);
+
+			{ check for change in room }
+			NewRoom := HitRoom(X, Y);
+			if (NewRoom <> -1) and (CPlayer.Room <> NewRoom) then begin 
+				CPlayer.Room := NewRoom;
+				Redraw := True;
+			end;
 
 			{ check for items }
 			FoundItemI := HitItem(X, Y);

@@ -85,6 +85,33 @@ begin
     If Found then HitRoom := I else HitRoom := -1;
 end;
 
+{ Returns if room R is visible from index I }
+{ Room is visible if immediately linked by door and door }
+{ is open }
+function CanSee(RI: Integer; RT:Integer): Boolean;
+var	
+	I: Integer;
+	Found: Boolean;
+begin
+	if RI = RT then CanSee := True
+	else 
+	begin
+		For I := 0 To DoorI do begin
+			With Doors[I] do begin
+				if (((Room1I = RI) and (Room2I = RT)) or 
+					((Room1I = RT) and (Room2I = RI))) and
+					Opened
+					then
+				begin
+					Found := True;
+					Break;
+				end;
+			end;
+		end;
+		CanSee := Found;
+	end;
+end;
+
 { Generate another room }
 { Will return False if a room can no longer be generated. }
 function NextRoom : Boolean;
