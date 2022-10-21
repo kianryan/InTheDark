@@ -115,6 +115,7 @@ procedure DrawFrame;
 var
     X, Y: Integer;
 begin
+	Clrscr;
     GotoXY(1,1);
     for X := 1 to SWidth do
     begin
@@ -199,4 +200,9 @@ begin
 	Write(T);
 	Write('/');
 	Write(DT);
+
+	GotoXY(SWidth-11, 1);
+	Write('Dungeon: ***');
+	GotoXY(SWidth-2, 1);
+	Write(DC);
 end;

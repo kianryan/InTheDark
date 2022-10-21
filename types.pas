@@ -56,12 +56,15 @@ var
     CPlayer: Player;
     MDist: Integer; { dist to monster }
 
-    I: Integer;
+    I: Integer; { idx counter }
 
     L: Integer; { number of turns remaining with light }
     T: Integer; { total treasure taken }
 	DT: Integer; { total treasure in dungeon }
 	CT: Integer; { turns to display treasure for }
+
+	DC: Integer; { total number of dungeons cleared by player }
+	NextDungeon: Boolean;
 
     Noun: array[0..20] of String;
     Adjective: array[0..20] of String;

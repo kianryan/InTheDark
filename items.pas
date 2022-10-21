@@ -25,6 +25,7 @@ begin
 	with Items[I] do begin
 		IType := 2; { treasure }
 		Taken := False;
+		L := 0;
 		T := 1; { all treasure equal val }
 		D1 := Random(10) + 10;
 		D2 := Random(10) + 10;
@@ -40,12 +41,17 @@ var
 	P: Single;
 begin
 
+	CLight := -1;
+	CTreasure := -1;
+
 
 	{ player is given 1st light }
 	GenerateLight(0);
 
 	ItemI := 1;
+	T := 0;
 	DT := 0;
+	CT := 0;
 
 	For I := 0 to RoomI do begin
 		For J := 0 to 5 do begin

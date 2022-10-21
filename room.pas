@@ -280,6 +280,7 @@ begin
 
                 Room1I := I;
                 Room2I := J;
+				Opened := False;
 
                 { check for collisions before doing anything else }
                 if (DoorNotFound(I, J)) then
@@ -320,6 +321,7 @@ end;
 { Generates new dungeon, resets dungeon variables }
 procedure GenerateDungeon;
 begin
+	RoomI := 0;
     while(RoomI < 5) do begin { we need a minimum of 5 room dungeon }
         FirstRoom;
         while((RoomI < 10) and NextRoom()) do ;
