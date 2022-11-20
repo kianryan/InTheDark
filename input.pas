@@ -1,22 +1,23 @@
 { input handling }
 
-function NextMove : Boolean;
-var
-    ch: char;
-begin
+Function NextMove : Boolean;
 
-    D := -1;
+Var
+  ch: char;
+Begin
 
-    ch := ReadKey;
-    ch := lowercase(ch);
-    GotoXY(1,1);
-    case ch of
-        'a': D := 0;
-        's': D := 3;
-        'd': D := 1;
-        'w': D := 2;
-        'q': D := 999;
-    end;
+  D := -1;
 
-    NextMove := D <> 999; { we are quitting? }
-end;
+  ch := ReadKey;
+  ch := lowercase(ch);
+  GotoXY(1,1);
+  Case ch Of
+    'a': D := 0;
+    's': D := 3;
+    'd': D := 1;
+    'w': D := 2;
+    'q': D := 999;
+  End;
+
+  NextMove := D <> 999; { we are quitting? }
+End;

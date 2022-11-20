@@ -1,34 +1,39 @@
 { monster management }
 
-procedure GenerateMonsters;
-var
-	P: Single;
-	I: Integer;
-    Valid: Boolean;
-begin
-	MDist := -1;
-	MonsterI := 0;
+Procedure GenerateMonsters;
 
-	For I := 0 to RoomI do begin
-		P := Random;
-		If P > 0.6 Then Begin
-			repeat
-      	        With Rooms[I], Monsters[MonsterI] do begin
-    		        DX := Random(X2 - X1 - 1) + X1 + 1;
-    			    DY := Random(Y2 - Y1 - 1) + Y1 + 1;
-    			    X := DX;
-    			    Y := DY;
-    			    Room := I; { monsters stay in room }
-					Valid := (X <> CPlayer.X) and (Y <> CPlayer.Y) and
-    					(HitItem(X, Y) = -1);
-    	        end;
-			until Valid;
-	        MonsterI := MonsterI + 1;
-		end;
+Var
+  P: Single;
+  I: Integer;
+  Valid: Boolean;
+Begin
+  MDist := -1;
+  MonsterI := 0;
+  Valid := False;
+
+  For I := 0 To RoomI Do
+    Begin
+      P := Random;
+      If P > 0.6 Then
+        Begin
+          Repeat
+            With Rooms[I], Monsters[MonsterI] Do
+              Begin
+                DX := Random(X2 - X1 - 1) + X1 + 1;
+                DY := Random(Y2 - Y1 - 1) + Y1 + 1;
+                X := DX;
+                Y := DY;
+                Room := I; { monsters stay in room }
+                Valid := (X <> CPlayer.X) And (Y <> CPlayer.Y) And
+                         (HitItem(X, Y) = -1);
+              End;
+          Until Valid;
+          MonsterI := MonsterI + 1;
+        End;
     End;
 
-	MonsterI := MonsterI - 1;
-end;
+  MonsterI := MonsterI - 1;
+End;
 
 { rules: }
 { in a room with a player: }
@@ -37,115 +42,131 @@ end;
 { in a room without a player }
 { a monster will move in a random direction }
 
-procedure MoveRandom(I: Integer);
-var
-	Tries: Integer; { 4 tries/ cardinalities }
-	Valid : Boolean;
-	D: Integer; { direction to try }
-	TX, TY: Integer;
-begin
-	with Monsters[I] do begin
+Procedure MoveRandom(I: Integer);
+
+Var
+  Tries: Integer; { 4 tries/ cardinalities }
+  Valid : Boolean;
+  D: Integer; { direction to try }
+  TX, TY: Integer;
+Begin
+  With Monsters[I] Do
+    Begin
     { if (M.Room <> CPlayer.Room) then begin }
-		D := Random(4);
-		Tries := 0;
+      D := Random(4);
+      Tries := 0;
 
-		repeat
+      Repeat
 
-			Tries := Tries + 1;
+        Tries := Tries + 1;
 
-			if (Tries <> 1) then begin
-				D := (D + 1) mod 4; { try next cardinality }
-			end;
+        If (Tries <> 1) Then
+          Begin
+            D := (D + 1) Mod 4; { try next cardinality }
+          End;
 
-		    TX := X;
-		    TY := Y;
-            case D of
-                0: TX := TX - 1;
-                1: TX := TX + 1;
-                2: TY := TY - 1;
-                3: TY := TY + 1;
-            end;
-		    Valid := (not HitWall(TX, TY)) and (HitItem(TX, TY) = -1);
+        TX := X;
+        TY := Y;
+        Case D Of
+          0: TX := TX - 1;
+          1: TX := TX + 1;
+          2: TY := TY - 1;
+          3: TY := TY + 1;
+        End;
+        Valid := (Not HitWall(TX, TY)) And (HitItem(TX, TY) = -1);
 
-		until Valid or (Tries > 4);
+      Until Valid Or (Tries > 4);
 
-		if Valid then begin
-			X := TX;
-			Y := TY;
-		end;
+      If Valid Then
+        Begin
+          X := TX;
+          Y := TY;
+        End;
     { end; }
-    end;
-end;
+    End;
+End;
 
 { Attempt to move closer to the player char }
 
 { D: 1 - towards, -1 away }
-procedure MoveToPlayer(I: Integer; D: Integer);
-var
-    CX, CY: Integer; { change X/Y }
-	TX, TY: Integer; { try X/Y }
-begin
-    with Monsters[I] do begin
-		CX := X - CPlayer.X;
-		CY := Y - CPlayer.Y;
+Procedure MoveToPlayer(I: Integer; D: Integer);
 
-		if not ((CX = 0) and (CY = 0)) then begin
-    		{ work out which is the greater disparity and move closer towards the player }
-    		TX := X;
-    		TY := Y;
-    		if Abs(CX) > Abs(CY) then
-    			If CX > 0 Then TX := X - D Else TX := X + D
-    		else
-    			If CY > 0 Then TY := Y - D Else TY := Y + D;
-    
-    		If (not HitWall(TX, TY)) and (HitItem(TX, TY) = -1) then begin
-    				X := TX;
-    				Y := TY;
-    		end
-    		else MoveRandom(I);
-	    end;
-    end;
-end;
+Var
+  CX, CY: Integer; { change X/Y }
+  TX, TY: Integer; { try X/Y }
+Begin
+  With Monsters[I] Do
+    Begin
+      CX := X - CPlayer.X;
+      CY := Y - CPlayer.Y;
 
-procedure MoveMonsters;
-var
-	I: Integer;
-	D: Integer; { Dir of monster movement }
-begin
-	If L = 0 then D := 1 else D := -1;
-	For I := 0 To MonsterI do
-		if Monsters[I].Room = CPlayer.Room then MoveToPlayer(I, D) else MoveRandom(I)
-end;
+      If Not ((CX = 0) And (CY = 0)) Then
+        Begin
+
+  { work out which is the greater disparity and move closer towards the player }
+          TX := X;
+          TY := Y;
+          If Abs(CX) > Abs(CY) Then
+            If CX > 0 Then TX := X - D
+          Else TX := X + D
+          Else
+            If CY > 0 Then TY := Y - D
+          Else TY := Y + D;
+
+          If (Not HitWall(TX, TY)) And (HitItem(TX, TY) = -1) Then
+            Begin
+              X := TX;
+              Y := TY;
+            End
+          Else MoveRandom(I);
+        End;
+    End;
+End;
+
+Procedure MoveMonsters;
+
+Var
+  I: Integer;
+  D: Integer; { Dir of monster movement }
+Begin
+  If L = 0 Then D := 1
+  Else D := -1;
+  For I := 0 To MonsterI Do
+    If Monsters[I].Room = CPlayer.Room Then MoveToPlayer(I, D)
+    Else MoveRandom(I)
+End;
 
 
 { check for collisions with monsters }
 { return distance to monster if < 4 }
-function HitMonster(X1, Y1: Integer): Integer;
-var
-	I: Integer;
-	CX, CY: Integer;
-	Found: Boolean;
-begin
-	Found := False;
-	For I := 0 To MonsterI do begin
-		with Monsters[I] do
-		begin
-			{ only care if same room }
-			if HitRoom(X1, Y1) = Room then begin
-				GotoXY(1, 1);
-				CX := Abs(X1 - X);
-				CY := Abs(Y1 - Y);
-				If (CX < 4) and (CY < 4) then begin
-					Found := True;
-					Break;
-				end;
-			end;
-		end;
-	end;
+Function HitMonster(X1, Y1: Integer): Integer;
 
-	If Found Then
-		HitMonster := Max(CX, CY)
-	Else
-		HitMonster := -1;
-end;
+Var
+  I: Integer;
+  CX, CY: Integer;
+  Found: Boolean;
+Begin
+  Found := False;
+  For I := 0 To MonsterI Do
+    Begin
+      With Monsters[I] Do
+        Begin
+   { only care if same room }
+          If HitRoom(X1, Y1) = Room Then
+            Begin
+              CX := Abs(X1 - X);
+              CY := Abs(Y1 - Y);
+              If (CX < 4) And (CY < 4) Then
+                Begin
+                  Found := True;
+                  Break;
+                End;
+            End;
+        End;
+    End;
 
+  If Found Then
+    HitMonster := Max(CX, CY)
+  Else
+    HitMonster := -1;
+End;

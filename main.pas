@@ -1,49 +1,52 @@
 { main game loop }
 
-begin
-    Randomize;
+Begin
+  Randomize;
 
-    SetupDict;
+  SetupDict;
 
-	DC := 0;
-	NextDungeon := True;
+  DC := 0;
+  NextDungeon := True;
 
-	while(NextDungeon) do
-	begin
-	    GenerateDungeon;
-	    GenerateItems;
-    	GeneratePlayer;
-	GenerateMonsters;
+  While (NextDungeon) Do
+    Begin
+      GenerateDungeon;
+      GenerateItems;
+      GeneratePlayer;
+      GenerateMonsters;
 
-    	DrawFrame;
-    	DrawDungeon;
-    	DrawPlayer;
-	DrawMonsters;
-    	DrawStatus;
-	DrawScore;
+      DrawFrame;
+      DrawDungeon;
+      DrawPlayer;
+      DrawMonsters;
+      DrawStatus;
+      DrawScore;
 
-		if (Debug) then for I := 0 to RoomI do WriteRoom(Rooms[I], I + 1);
-    	if (Debug) then for I := 0 to DoorI do WriteDoor(Doors[I], I + 1);
-    	if (Debug) then for I := 0 to ItemI do WriteItem(Items[I], I + 1);
-    	if (Debug) then for I := 0 to MonsterI do WriteMonster(Monsters[I], I + 1);
+      If (Debug) Then For I := 0 To RoomI Do
+                        WriteRoom(Rooms[I], I + 1);
+      If (Debug) Then For I := 0 To DoorI Do
+                        WriteDoor(Doors[I], I + 1);
+      If (Debug) Then For I := 0 To ItemI Do
+                        WriteItem(Items[I], I + 1);
+      If (Debug) Then For I := 0 To MonsterI Do
+                        WriteMonster(Monsters[I], I + 1);
 
-		L := 32767;
+      L := 32767;
 
-		while ((MDist <> 0) and (T < DT) and NextMove) do
-		while NextMove do
-    	begin
-        	if (MovePlayer) then DrawDungeon;
-        	DrawPlayer;
-			DrawMonsters;
-			MDist := HitMonster(CPlayer.X, CPlayer.Y);
-			DrawStatus;
-			DrawScore;
-    	end;
+      While ((MDist <> 0) And (T < DT) And NextMove) Do
+        Begin
+          If (MovePlayer) Then DrawDungeon;
+          DrawPlayer;
+          DrawMonsters;
+          MDist := HitMonster(CPlayer.X, CPlayer.Y);
+          DrawStatus;
+          DrawScore;
+        End;
 
-		{ if not win, then end game.  Otherwise, new dungeon. }
-		if T < DT then NextDungeon := False else DC := DC + 1;
-		end;
+  { if not win, then end game.  Otherwise, new dungeon. }
+      If T < DT Then NextDungeon := False
+      Else DC := DC + 1;
+    End;
 
-    GotoXY(1,SHeight + 2);
-end.
-
+  GotoXY(1,SHeight + 2);
+End.

@@ -1,207 +1,229 @@
 { drawing routines }
 
-procedure DrawRoom(DR: Room);
-var I: Integer;
-begin
-    with DR do
-    begin
-        if Discovered then
-        begin
-            GotoXY(X1,Y1);
-            for I := X1 to X2 do Write('-');
-            for I := Y1 + 1 to Y2 do
-            begin
-                GotoXY(X1, I); Write('!');
-                GotoXY(X2, I); Write('!');
-            end;
-            GotoXY(X1, Y2);
-            for I := X1 to X2 do Write('-');
-        end;
-    end;
-end;
+Procedure DrawRoom(DR: Room);
 
-procedure DrawDoor(DD: Door);
-begin
-    with DD do
-    begin
+Var I: Integer;
+Begin
+  With DR Do
+    Begin
+      If Discovered Then
+        Begin
+          GotoXY(X1,Y1);
+          For I := X1 To X2 Do
+            Write('-');
+          For I := Y1 + 1 To Y2 Do
+            Begin
+              GotoXY(X1, I);
+              Write('!');
+              GotoXY(X2, I);
+              Write('!');
+            End;
+          GotoXY(X1, Y2);
+          For I := X1 To X2 Do
+            Write('-');
+        End;
+    End;
+End;
 
-        { a door links two rooms - we only draw the door if one of the rooms
+Procedure DrawDoor(DD: Door);
+Begin
+  With DD Do
+    Begin
+{ a door links two rooms - we only draw the door if one of the rooms
           is discovered }
-        if (Rooms[Room1I].Discovered or Rooms[Room2I].Discovered) and (not Opened) then
-        begin
-            GotoXY(X, Y);
-            Write('X');
-        end
-        else if Opened then
-        begin
-            GotoXY(X, Y);
-            Write(' ');
-        end
-    end;
-end;
+      If (Rooms[Room1I].Discovered Or Rooms[Room2I].Discovered) And (Not Opened)
+        Then
+        Begin
+          GotoXY(X, Y);
+          Write('X');
+        End
+      Else If Opened Then
+             Begin
+               GotoXY(X, Y);
+               Write(' ');
+             End
+    End;
+End;
 
-procedure DrawItem(DI: Item);
-begin
-	with DI do
-	begin
-		if Rooms[Room].Discovered then begin
-			GotoXY(X, Y);
-		    if not Taken then
-		    begin
-				case (IType) of
-					1: write('#');
-					2: write('£');
-				end;
-		    end
-			else begin
-				Write(' ');
-			end
-		end
-	end;
-end;
+Procedure DrawItem(DI: Item);
+Begin
+  With DI Do
+    Begin
+      GotoXY(X, Y);
+      Case (IType) Of
+        1: Write('#');
+        2: Write('£');
+        Else
+          Write(IType);
+      End;
+    End;
+End;
 
-procedure HideItem(DI: Item);
-begin
-	with DI do
-	begin
-	    GotoXY(X, Y);
-	    Write(' ');
-	end;
-end;
+Procedure HideItem(DI: Item);
+Begin
+  With DI Do
+    Begin
+      GotoXY(X, Y);
+      Write(' ');
+    End;
+End;
 
-procedure DrawMonster(I: Integer; Glyph: String);
-begin
-	with Monsters[I] do
-	begin
-        GotoXY(DX, DY);
-		If not ((DX = CPlayer.X) and (DY = CPlayer.Y)) then Write(' ');
-        GotoXY(X, Y);
-        Write(Glyph);
-        DX := X; { Set new position on screen }
-        DY := Y;
-	end;
-end;
+Procedure DrawMonster(I: Integer; Glyph: String);
+Begin
+  With Monsters[I] Do
+    Begin
+      GotoXY(DX, DY);
+      If Not ((DX = CPlayer.X) And (DY = CPlayer.Y)) Then Write(' ');
+      GotoXY(X, Y);
+      Write(Glyph);
+      DX := X; { Set new position on screen }
+      DY := Y;
+    End;
+End;
 
-procedure DrawMonsters;
-var
-	Glyph: String;
-begin
-	for I := 0 to MonsterI do begin
-		Glyph := ' ';
-		if (Rooms[Monsters[I].Room].ShowContents) and (L > 0) then Str(I, Glyph);
-		DrawMonster(I, Glyph);
-	end		
-end;
+Procedure DrawMonsters;
 
-procedure DrawDungeon;
-var
-    I: Integer;
-begin
-    for I := 0 to RoomI do begin
-		Rooms[I].ShowContents := CanSee(CPlayer.Room, I);
-		DrawRoom(Rooms[I]);
-	end;
-    for I := 0 to DoorI do DrawDoor(Doors[I]);
-	for I := 1 to ItemI do begin { do not draw player light }
-		if (not Rooms[Items[I].Room].ShowContents) or (L = 0) then
-			HideItem(Items[I])
-		else
-			DrawItem(Items[I]);
-	end;
-end;
+Var
+  Glyph: String;
+Begin
+  For I := 0 To MonsterI Do
+    Begin
+      Glyph := ' ';
+      If (Rooms[Monsters[I].Room].ShowContents) And (L > 0) Then Glyph := '"';
+      DrawMonster(I, Glyph);
+    End
+End;
 
-procedure DrawFrame;
-var
-    X, Y: Integer;
-begin
-	Clrscr;
-    GotoXY(1,1);
-    for X := 1 to SWidth do
-    begin
-     GotoXY(X, 1);
-     Write('*');
-     GotoXY(X, SHeight);
-     Write('*')
-    end;
-    for Y := 1 to SHeight do
-    begin
-        GotoXY(1, Y);
-        Write('*');
-        GotoXY(SWidth, Y);
-        Write('*');
-    end;
-    GotoXY(1,1);
-end;
+Procedure DrawDungeon;
 
-procedure DrawPlayer;
-begin
-    with CPlayer do begin
-        GotoXY(DX, DY);
-        Write(' ');
-        GotoXY(X, Y);
-        Write('@');
-        DX := X; { Set new position on screen }
-        DY := Y;
-    end;
-end;
+Var
+  I: Integer;
+Begin
+  For I := 0 To RoomI Do
+    Begin
+      Rooms[I].ShowContents := CanSee(CPlayer.Room, I);
+      DrawRoom(Rooms[I]);
+    End;
+  For I := 0 To DoorI Do
+    DrawDoor(Doors[I]);
+  For I := 1 To ItemI Do
+    If (Not Rooms[Items[I].Room].ShowContents) Or Items[I].Taken Or (L = 0) Then
+      HideItem(Items[I])
+    Else
+      DrawItem(Items[I]);
+End;
 
-procedure DrawStatus;
-var
-	I: Integer;
-begin
-	GotoXY(2, SHeight);
-	For I := 1 to SWidth - 1 do Write('*');
-	GotoXY(2, SHeight);
+Procedure DrawFrame;
 
-	if MDist <> -1 then begin
-	    if (MDist = 0) and (L = 0) then
-		    Write('In the dark, the the talons of the grue drag you to your end.')
-	    else if MDist = 0 then
-		    Write('In the light, you bump in to the grue. It extinguishes your light, and you.')
-	    else if (MDist < 2) and (L = 0) then
-		    Write('You can hear the grue breathing down your neck.')
-	    else if ((MDist < 4) and (L = 0)) then
-		    Write('You can hear the talons of the grue tapping the tiles nearby.')
-	end
-	else if CT > 0 then 
-	begin
-		Write('You pick up a ');
-		Write(Adjective[Items[CTreasure].D2]);
-		Write(' ');
-		Write(Noun[Items[CTreasure].D1]);
-		Write('.');
-		CT := CT - 1;
-	end
-	else 
-	begin
-	    if (L = 0) then
-	        Write('It is dark, you are likely eaten by a grue.')
-		else if (L < 5) then begin
-			Write('Your ');
-			Write(Noun[Items[CLight].D1]);
-			Write(' grows dim.  It will be dark soon.');
-		end
-		else begin
-			Write('A ');
-			Write(Adjective[Items[CLight].D2]);
-			Write(' ');
-			Write(Noun[Items[CLight].D1]);
-			Write(' lights your way.  For now.');
-		end;
-	end;
-end;
+Var
+  X, Y: Integer;
+Begin
+  Clrscr;
+  GotoXY(1,1);
+  For X := 1 To SWidth Do
+    Begin
+      GotoXY(X, 1);
+      Write('*');
+      GotoXY(X, SHeight);
+      Write('*')
+    End;
+  For Y := 1 To SHeight Do
+    Begin
+      GotoXY(1, Y);
+      Write('*');
+      GotoXY(SWidth, Y);
+      Write('*');
+    End;
+  GotoXY(1,1);
+End;
 
-procedure DrawScore;
-begin
-	GotoXY(SWidth-5, SHeight);
-	Write('*****');
-	GotoXY(SWidth-5, SHeight);
-	Write(T);
-	Write('/');
-	Write(DT);
+Procedure DrawPlayer;
+Begin
+  With CPlayer Do
+    Begin
+      GotoXY(DX, DY);
+      Write(' ');
+      GotoXY(X, Y);
+      Write('@');
+      DX := X; { Set new position on screen }
+      DY := Y;
+    End;
+End;
 
-	GotoXY(SWidth-11, 1);
-	Write('Dungeon: ***');
-	GotoXY(SWidth-2, 1);
-	Write(DC);
-end;
+Procedure DrawStatus;
+
+Var
+  I: Integer;
+Begin
+  GotoXY(2, SHeight);
+  For I := 1 To SWidth - 1 Do
+    Write('*');
+  GotoXY(2, SHeight);
+
+  If MDist <> -1 Then
+    Begin
+      If (MDist = 0) And (L = 0) Then
+        Write('In the dark, the the talons of the grue drag you to your end.')
+      Else If MDist = 0 Then
+             Write(
+
+
+
+
+   'In the light, you bump in to the grue. It extinguishes your light, and you.'
+             )
+      Else If (MDist < 2) And (L = 0) Then
+             Write('You can hear the grue breathing down your neck.')
+      Else If ((MDist < 4) And (L = 0)) Then
+             Write(
+
+
+
+
+                 'You can hear the talons of the grue tapping the tiles nearby.'
+             )
+    End
+  Else If CT > 0 Then
+         Begin
+           Write('You pick up a ');
+           Write(Adjective[Items[CTreasure].D2]);
+           Write(' ');
+           Write(Noun[Items[CTreasure].D1]);
+           Write('.');
+           CT := CT - 1;
+         End
+  Else
+    Begin
+      If (L = 0) Then
+        Write('It is dark, you are likely eaten by a grue.')
+      Else If (L < 5) Then
+             Begin
+               Write('Your ');
+               Write(Noun[Items[CLight].D1]);
+               Write(' grows dim.  It will be dark soon.');
+             End
+      Else
+        Begin
+          Write('A ');
+          Write(Adjective[Items[CLight].D2]);
+          Write(' ');
+          Write(Noun[Items[CLight].D1]);
+          Write(' lights your way.  For now.');
+        End;
+    End;
+End;
+
+Procedure DrawScore;
+Begin
+  GotoXY(SWidth-5, SHeight);
+  Write('*****');
+  GotoXY(SWidth-5, SHeight);
+  Write(T);
+  Write('/');
+  Write(DT);
+
+  GotoXY(SWidth-11, 1);
+  Write('Dungeon: ***');
+  GotoXY(SWidth-2, 1);
+  Write(DC);
+End;

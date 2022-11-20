@@ -1,108 +1,143 @@
 { Item generation }
-procedure GenerateLight(I: Integer);
-var
-	P: Single;
-	DU, DL: Integer;
-begin
-    P := Random;
-    If P > 0.95 then begin DL := 9; DU := 10; end
-    else if P > 0.9 then begin DL := 7; DU := 9; end
-    else if P > 0.8 then begin DL := 4; DU := 8; end
-    else if P > 0.6 then begin DL := 2; DU := 5; end
-    else begin DL := 1; DU := 3; end;
-    with Items[I] do begin
-        IType := 1; { light }
-        Taken := False;
-        L := (Random(DU - DL) + DL) * 4; { more! }
-        T := 0;
-        D1 := Random(DU - DL) + DL;
-        D2 := Random(10);
-    end;
-end;
+Procedure GenerateLight(I: Integer);
 
-procedure GenerateTreasure(I: Integer);
-begin
-	with Items[I] do begin
-		IType := 2; { treasure }
-		Taken := False;
-		L := 0;
-		T := 1; { all treasure equal val }
-		D1 := Random(10) + 10;
-		D2 := Random(10) + 10;
-	end;
-	DT := DT + 1;
-end;
+Var
+  P: Single;
+  DU, DL: Integer;
+Begin
+  P := Random;
+  If P > 0.95 Then
+    Begin
+      DL := 9;
+      DU := 10;
+    End
+  Else If P > 0.9 Then
+         Begin
+           DL := 7;
+           DU := 9;
+         End
+  Else If P > 0.8 Then
+         Begin
+           DL := 4;
+           DU := 8;
+         End
+  Else If P > 0.6 Then
+         Begin
+           DL := 2;
+           DU := 5;
+         End
+  Else
+    Begin
+      DL := 1;
+      DU := 3;
+    End;
+
+  With Items[I] Do
+    Begin
+      IType := 1; { light }
+      Taken := False;
+      L := (Random(DU - DL) + DL) * 4; { more! }
+      T := 0;
+      D1 := Random(DU - DL) + DL;
+      D2 := Random(10);
+    End;
+End;
+
+Procedure GenerateTreasure(I: Integer);
+Begin
+  With Items[I] Do
+    Begin
+      IType := 2; { treasure }
+      Taken := False;
+      L := 0;
+      T := 1; { all treasure equal val }
+      D1 := Random(10) + 10;
+      D2 := Random(10) + 10;
+    End;
+  DT := DT + 1;
+End;
 
 
 { Generate upto 3 items per room }
-procedure GenerateItems;
-var
-	I, J: Integer;
-	P: Single;
-begin
+Procedure GenerateItems;
 
-	CLight := -1;
-	CTreasure := -1;
+Var
+  I, J: Integer;
+  P: Single;
+Begin
 
+  CLight := -1;
+  CTreasure := -1;
 
-	{ player is given 1st light }
-	GenerateLight(0);
+ { player is given 1st light }
+  GenerateLight(0);
 
-	ItemI := 1;
-	T := 0;
-	DT := 0;
-	CT := 0;
+  ItemI := 1;
+  T := 0;
+  DT := 0;
+  CT := 0;
 
-	For I := 0 to RoomI do begin
-		For J := 0 to 5 do begin
-			P := Random;
-			if P > 0.4 then begin { we can adjust this as a difficulty }
-				if P > 0.8 then GenerateTreasure(ItemI) else GenerateLight(ItemI);
-			    With Items[ItemI], Rooms[I] do begin
-				    X := Random(X2 - X1 - 2) + X1 + 1;
-				    Y := Random(Y2 - Y1 - 2) + Y1 + 1;
-				    Room := I;
-				end;
+  For I := 0 To RoomI Do
+    Begin
+      For J := 0 To 5 Do
+        Begin
+          P := Random;
+          If P > 0.4 Then
+            Begin { we can adjust this as a difficulty }
+              If P > 0.8 Then GenerateTreasure(ItemI)
+              Else GenerateLight(ItemI);
+              With Items[ItemI], Rooms[I] Do
+                Begin
+                  X := Random(X2 - X1 - 2) + X1 + 1;
+                  Y := Random(Y2 - Y1 - 2) + Y1 + 1;
+                  Room := I;
+                End;
 
-				ItemI := ItemI + 1;
-			end;
-		end;
-	end;	
+              ItemI := ItemI + 1;
+            End;
+        End;
+    End;
 
-	ItemI := ItemI - 1;
-end;
+  ItemI := ItemI - 1;
+End;
 
 { check for collisions with items }
-function HitItem(X1, Y1: Integer): Integer;
-var
-	I: Integer;
-	Found: Boolean;
-begin
-	Found := False;
-	For I := 0 To ItemI do begin
-	    with Items[I] do
-	    begin
-		    if (X = X1) and (Y = Y1) and (not Taken) then begin
-			    Found := True;
-			    Break;
-		    end;
-	    end;
-	end;
+Function HitItem(X1, Y1: Integer): Integer;
 
-	If Found then HitItem := I else HitItem := -1;
-end;
+Var
+  I: Integer;
+  Found: Boolean;
+Begin
+  Found := False;
+  For I := 0 To ItemI Do
+    Begin
+      With Items[I] Do
+        Begin
+          If (X = X1) And (Y = Y1) And (Not Taken) Then
+            Begin
+              Found := True;
+              Break;
+            End;
+        End;
+    End;
+
+  If Found Then HitItem := I
+  Else HitItem := -1;
+End;
 
 { take the item, apply side effects to globals }
-procedure TakeItem(I: Integer);
-begin
-		Items[I].Taken := True;
-		if Items[I].L > 0 then begin
-			L := Items[I].L;
-			CLight := I;
-		end;
-		if Items[I].T > 0 then begin
-			T := T + Items[I].T;
-			CTreasure := I;
-			CT := 3;
-		end;
-end;
+Procedure TakeItem(I: Integer);
+Begin
+  Items[I].Taken := True;
+  If Items[I].L > 0 Then
+    Begin
+      L := Items[I].L;
+      CLight := I;
+    End;
+  If Items[I].T > 0 Then
+    Begin
+      T := T + Items[I].T;
+      CTreasure := I;
+      CT := 3;
+    End;
+End;

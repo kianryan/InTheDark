@@ -1,87 +1,94 @@
 { player management }
 
 { set player position in random room }
-procedure GeneratePlayer;
-var
-    I : Integer;
-begin
-    I := Random(RoomI);
+Procedure GeneratePlayer;
 
-    with CPlayer, Rooms[I] do begin
-		Discovered := True;
-		DX := Random(X2 - X1 - 1) + X1 + 1;
-		DY := Random(Y2 - Y1 - 1) + Y1 + 1;
-		X := DX;
-		Y := DY; { first play - no tidy }
-		Room := I;
-    end;
+Var
+  I : Integer;
+Begin
+  I := Random(RoomI);
 
-	TakeItem(0);
-end;
+  With CPlayer, Rooms[I] Do
+    Begin
+      Discovered := True;
+      DX := Random(X2 - X1 - 1) + X1 + 1;
+      DY := Random(Y2 - Y1 - 1) + Y1 + 1;
+      X := DX;
+      Y := DY; { first play - no tidy }
+      Room := I;
+    End;
+
+  TakeItem(0);
+End;
 
 { move player, report on if redraw is necessary }
-function MovePlayer : Boolean;
-var
-    X, Y: Integer;
-    FoundDoorI: Integer;
-	FoundItemI: Integer;
-    Redraw, Valid: Boolean;
-	NewRoom: Integer;
-begin
-    X := CPlayer.X;
-    Y := CPlayer.Y;
-    Redraw := False;
-    Valid := True;
+Function MovePlayer : Boolean;
 
-    if (D >= 0) and (D < 4) then
-    begin
+Var
+  X, Y: Integer;
+  FoundDoorI: Integer;
+  FoundItemI: Integer;
+  Redraw, Valid: Boolean;
+  NewRoom: Integer;
+Begin
+  X := CPlayer.X;
+  Y := CPlayer.Y;
+  Redraw := False;
+  Valid := True;
 
-        case D of
-            0: X := CPlayer.X - 1;
-            1: X := CPlayer.X + 1;
-            2: Y := CPlayer.Y - 1;
-            3: Y := CPlayer.Y + 1;
-        end;
+  If (D >= 0) And (D < 4) Then
+    Begin
+
+      Case D Of
+        0: X := CPlayer.X - 1;
+        1: X := CPlayer.X + 1;
+        2: Y := CPlayer.Y - 1;
+        3: Y := CPlayer.Y + 1;
+      End;
 
         { if going though door, open door and adjacent rooms }
-        FoundDoorI := HitDoor(X, Y);
-        if FoundDoorI <> -1 then
-        begin
-            with Doors[FoundDoorI] do
-            begin
-                Rooms[Room1I].Discovered := True;
-                Rooms[Room2I].Discovered := True;
-                Opened := True;
-            end;
-            Redraw := True;
-        end
-        else Valid := not HitWall(X, Y);
+      FoundDoorI := HitDoor(X, Y);
+      If FoundDoorI <> -1 Then
+        Begin
+          With Doors[FoundDoorI] Do
+            Begin
+              Rooms[Room1I].Discovered := True;
+              Rooms[Room2I].Discovered := True;
+              Opened := True;
+            End;
+          Redraw := True;
+        End
+      Else Valid := Not HitWall(X, Y);
 
-        if Valid then begin
-            CPlayer.X := X;
-            CPlayer.Y := Y;
+      If Valid Then
+        Begin
+          CPlayer.X := X;
+          CPlayer.Y := Y;
 
-			{ check for change in room }
-			NewRoom := HitRoom(X, Y);
-			if (NewRoom <> -1) and (CPlayer.Room <> NewRoom) then begin 
-				CPlayer.Room := NewRoom;
-				Redraw := True;
-			end;
+   { check for change in room }
+          NewRoom := HitRoom(X, Y);
+          If (NewRoom <> -1) And (CPlayer.Room <> NewRoom) Then
+            Begin
+              CPlayer.Room := NewRoom;
+              Redraw := True;
+            End;
 
-			{ check for items }
-			FoundItemI := HitItem(X, Y);
-			if FoundItemI <> -1 then begin
-				TakeItem(FoundItemI);
-				Redraw := True;
-			end
-			else begin
-				If (L > 0) then L := L - 1;
-				If L = 0 Then Redraw := True; { Hide items }
-			end;
+   { check for items }
+          FoundItemI := HitItem(X, Y);
+          If FoundItemI <> -1 Then
+            Begin
+              TakeItem(FoundItemI);
+              Redraw := True;
+            End
+          Else
+            Begin
+              If (L > 0) Then L := L - 1;
+              If L = 0 Then Redraw := True; { Hide items }
+            End;
 
-			MoveMonsters; 
-        end;
-    end;
+          MoveMonsters;
+        End;
+    End;
 
-    MovePlayer := Redraw;
-end;
+  MovePlayer := Redraw;
+End;
