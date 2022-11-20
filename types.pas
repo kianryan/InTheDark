@@ -78,7 +78,6 @@ Const
   UHeight = 10;
   MWidth = 3;
   MHeight = 3;
-  Debug = False;
 
 { Init dict for nouns and verbs }
 Procedure SetupDict;

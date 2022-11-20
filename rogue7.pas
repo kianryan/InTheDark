@@ -1,7 +1,11 @@
 
 Program Rogue;
 
-Uses Crt, Math;
+
+Uses
+Crt,
+Math
+;
 
 { linking file for rogue program }
 { Suitable for FPC and TP7 }

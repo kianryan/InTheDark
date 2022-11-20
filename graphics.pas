@@ -119,6 +119,7 @@ Var
   X, Y: Integer;
 Begin
   Clrscr;
+  Window(1, 1, SWidth, SHeight + 1);
   GotoXY(1,1);
   For X := 1 To SWidth Do
     Begin

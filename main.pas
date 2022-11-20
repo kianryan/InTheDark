@@ -1,9 +1,15 @@
 { main game loop }
 
 Begin
+
   Randomize;
 
   SetupDict;
+
+  MDist := 0;
+  CT := 0;
+  T := 0;
+
 
   DC := 0;
   NextDungeon := True;
@@ -22,15 +28,17 @@ Begin
       DrawStatus;
       DrawScore;
 
-      If (Debug) Then For I := 0 To RoomI Do
-                        WriteRoom(Rooms[I], I + 1);
-      If (Debug) Then For I := 0 To DoorI Do
-                        WriteDoor(Doors[I], I + 1);
-      If (Debug) Then For I := 0 To ItemI Do
-                        WriteItem(Items[I], I + 1);
-      If (Debug) Then For I := 0 To MonsterI Do
-                        WriteMonster(Monsters[I], I + 1);
-
+      // {$define DEBUG}
+{$ifdef DEBUG}
+      For I := 0 To RoomI Do
+        WriteRoom(Rooms[I], I + 1);
+      For I := 0 To DoorI Do
+        WriteDoor(Doors[I], I + 1);
+      For I := 0 To ItemI Do
+        WriteItem(Items[I], I + 1);
+      For I := 0 To MonsterI Do
+        WriteMonster(Monsters[I], I + 1);
+{$endif}
       L := 32767;
 
       While ((MDist <> 0) And (T < DT) And NextMove) Do
@@ -48,5 +56,5 @@ Begin
       Else DC := DC + 1;
     End;
 
-  GotoXY(1,SHeight + 2);
+  GotoXY(1,SHeight+1);
 End.
