@@ -11,16 +11,16 @@ begin
 	while(NextDungeon) do
 	begin
 	    GenerateDungeon;
-    	GenerateItems;
+	    GenerateItems;
     	GeneratePlayer;
-		GenerateMonsters;
+	GenerateMonsters;
 
     	DrawFrame;
     	DrawDungeon;
     	DrawPlayer;
-		DrawMonsters;
+	DrawMonsters;
     	DrawStatus;
-		DrawScore;
+	DrawScore;
 
 		if (Debug) then for I := 0 to RoomI do WriteRoom(Rooms[I], I + 1);
     	if (Debug) then for I := 0 to DoorI do WriteDoor(Doors[I], I + 1);
@@ -29,7 +29,8 @@ begin
 
 		L := 32767;
 
-    	while ((MDist <> 0) and (T < DT) and NextMove) do
+		while ((MDist <> 0) and (T < DT) and NextMove) do
+		while NextMove do
     	begin
         	if (MovePlayer) then DrawDungeon;
         	DrawPlayer;
@@ -41,7 +42,7 @@ begin
 
 		{ if not win, then end game.  Otherwise, new dungeon. }
 		if T < DT then NextDungeon := False else DC := DC + 1;
-	end;
+		end;
 
     GotoXY(1,SHeight + 2);
 end.

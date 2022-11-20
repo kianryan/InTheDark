@@ -44,18 +44,18 @@ procedure DrawItem(DI: Item);
 begin
 	with DI do
 	begin
-		if Rooms[Room].Discovered and (not Taken) then
-		begin
+		if Rooms[Room].Discovered then begin
 			GotoXY(X, Y);
-			case (IType) of
-				1: write('#');
-				2: write('£');
-			end;
-		end
-		else if Taken then
-		begin
-			GotoXY(X, Y);
-			Write(' ');
+		    if not Taken then
+		    begin
+				case (IType) of
+					1: write('#');
+					2: write('£');
+				end;
+		    end
+			else begin
+				Write(' ');
+			end
 		end
 	end;
 end;
@@ -88,7 +88,7 @@ var
 begin
 	for I := 0 to MonsterI do begin
 		Glyph := ' ';
-		if (Rooms[Monsters[I].Room].ShowContents) and (L > 0) then Glyph := '%';
+		if (Rooms[Monsters[I].Room].ShowContents) and (L > 0) then Str(I, Glyph);
 		DrawMonster(I, Glyph);
 	end		
 end;
@@ -102,8 +102,7 @@ begin
 		DrawRoom(Rooms[I]);
 	end;
     for I := 0 to DoorI do DrawDoor(Doors[I]);
-
-	for I := 0 to ItemI do begin
+	for I := 1 to ItemI do begin { do not draw player light }
 		if (not Rooms[Items[I].Room].ShowContents) or (L = 0) then
 			HideItem(Items[I])
 		else

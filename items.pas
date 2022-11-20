@@ -61,7 +61,7 @@ begin
 			    With Items[ItemI], Rooms[I] do begin
 				    X := Random(X2 - X1 - 2) + X1 + 1;
 				    Y := Random(Y2 - Y1 - 2) + Y1 + 1;
-					Room := I;
+				    Room := I;
 				end;
 
 				ItemI := ItemI + 1;
