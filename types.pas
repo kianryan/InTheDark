@@ -47,7 +47,7 @@ Var
   Items: array[0..50] Of Item; { up to 3 items per room }
   ItemI: Integer;
   CLight: Integer;  { last light picked up }
-  CTreasure: Integer;  { last light picked up }
+  CTreasure: Integer;  { last treasure picked up }
 
   Monsters: array[0..10] Of Monster;
   MonsterI: Integer;
@@ -78,6 +78,15 @@ Const
   UHeight = 10;
   MWidth = 3;
   MHeight = 3;
+
+  ChSpace = #32;
+  ChHash = #35;
+  ChDollar = #36;
+  ChDoor = #88;
+  ChVWall = #33;
+  ChHWall = #45;
+  ChFrame = #42;
+  ChPlayer = #64;
 
 { Init dict for nouns and verbs }
 Procedure SetupDict;

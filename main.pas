@@ -57,4 +57,11 @@ Begin
     End;
 
   GotoXY(1,SHeight+1);
+
+  If (D = 666) Then
+    Begin
+      Window(1, 1, ScreenWidth, ScreenHeight);
+      ClrScr;
+      DebugAll();
+    End
 End.

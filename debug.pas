@@ -4,7 +4,7 @@
 Procedure WriteRoom(Debug: Room; L: Integer);
 Begin
   GotoXY(1, L);
-  Write('X1: ');
+  Write('R X1: ');
   Write(Debug.X1);
   Write(' Y1: ');
   Write(Debug.Y1);
@@ -17,7 +17,7 @@ End;
 Procedure WriteDoor(Debug:Door; L: Integer);
 Begin
   GotoXY(1, L);
-  Write('X: ');
+  Write('D X: ');
   Write(Debug.X);
   Write(' Y: ');
   Write(Debug.Y);
@@ -31,7 +31,7 @@ End;
 Procedure WriteItem(Debug:Item; L:Integer);
 Begin
   GotoXY(1, L);
-  Write('X: ');
+  Write('I X: ');
   Write(Debug.X);
   Write(' Y: ');
   Write(Debug.Y);
@@ -41,16 +41,16 @@ Begin
   Write(Debug.D1);
   Write(' D2: ');
   Write(Debug.D2);
-  Write(' ');
+  Write(ChSpace);
   Write(Adjective[Debug.D2]);
-  Write(' ');
+  Write(ChSpace);
   WriteLn(Noun[Debug.D1]);
 End;
 
 Procedure WriteMonster(Debug:Monster; L:Integer);
 Begin
   GotoXY(1, L);
-  Write('X: ');
+  Write('M X: ');
   Write(Debug.X);
   Write(' Y: ');
   Write(Debug.Y);
@@ -60,4 +60,24 @@ Begin
   Write(Debug.DY);
   Write(' Room: ');
   WriteLn(Debug.Room);
+End;
+
+Procedure DebugAll();
+
+Var
+  L: Integer;
+  I : Integer;
+Begin
+  L := 1;
+  For I := 0 To RoomI Do
+    WriteRoom(Rooms[I], L + I);
+  L := L + I + 1;
+  For I := 0 To DoorI Do
+    WriteDoor(Doors[I], L + I);
+  L := L + I + 1;
+  For I := 0 To ItemI Do
+    WriteItem(Items[I], L + I);
+  L := L + I + 1;
+  For I := 0 To MonsterI Do
+    WriteMonster(Monsters[I], L + I);
 End;

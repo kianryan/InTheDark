@@ -10,17 +10,17 @@ Begin
         Begin
           GotoXY(X1,Y1);
           For I := X1 To X2 Do
-            Write('-');
+            Write(ChHWall);
           For I := Y1 + 1 To Y2 Do
             Begin
               GotoXY(X1, I);
-              Write('!');
+              Write(ChVWall);
               GotoXY(X2, I);
-              Write('!');
+              Write(ChVWall);
             End;
           GotoXY(X1, Y2);
           For I := X1 To X2 Do
-            Write('-');
+            Write(ChHWall);
         End;
     End;
 End;
@@ -29,18 +29,20 @@ Procedure DrawDoor(DD: Door);
 Begin
   With DD Do
     Begin
+
+
 { a door links two rooms - we only draw the door if one of the rooms
           is discovered }
       If (Rooms[Room1I].Discovered Or Rooms[Room2I].Discovered) And (Not Opened)
         Then
         Begin
           GotoXY(X, Y);
-          Write('X');
+          Write(ChDoor);
         End
       Else If Opened Then
              Begin
                GotoXY(X, Y);
-               Write(' ');
+               Write(ChSpace);
              End
     End;
 End;
@@ -51,8 +53,8 @@ Begin
     Begin
       GotoXY(X, Y);
       Case (IType) Of
-        1: Write('#');
-        2: Write('£');
+        1: Write(ChHash); { Hash }
+        2: Write(ChDollar); { Dollar }
         Else
           Write(IType);
       End;
@@ -64,7 +66,7 @@ Begin
   With DI Do
     Begin
       GotoXY(X, Y);
-      Write(' ');
+      Write(ChSpace);
     End;
 End;
 
@@ -73,7 +75,7 @@ Begin
   With Monsters[I] Do
     Begin
       GotoXY(DX, DY);
-      If Not ((DX = CPlayer.X) And (DY = CPlayer.Y)) Then Write(' ');
+      If Not ((DX = CPlayer.X) And (DY = CPlayer.Y)) Then Write(ChSpace);
       GotoXY(X, Y);
       Write(Glyph);
       DX := X; { Set new position on screen }
@@ -88,7 +90,7 @@ Var
 Begin
   For I := 0 To MonsterI Do
     Begin
-      Glyph := ' ';
+      Glyph := ChSpace;
       If (Rooms[Monsters[I].Room].ShowContents) And (L > 0) Then Glyph := '"';
       DrawMonster(I, Glyph);
     End
@@ -124,16 +126,16 @@ Begin
   For X := 1 To SWidth Do
     Begin
       GotoXY(X, 1);
-      Write('*');
+      Write(ChFrame);
       GotoXY(X, SHeight);
-      Write('*')
+      Write(ChFrame)
     End;
   For Y := 1 To SHeight Do
     Begin
       GotoXY(1, Y);
-      Write('*');
+      Write(ChFrame);
       GotoXY(SWidth, Y);
-      Write('*');
+      Write(ChFrame);
     End;
   GotoXY(1,1);
 End;
@@ -143,9 +145,9 @@ Begin
   With CPlayer Do
     Begin
       GotoXY(DX, DY);
-      Write(' ');
+      Write(ChSpace);
       GotoXY(X, Y);
-      Write('@');
+      Write(ChPlayer);
       DX := X; { Set new position on screen }
       DY := Y;
     End;
@@ -158,7 +160,7 @@ Var
 Begin
   GotoXY(2, SHeight);
   For I := 1 To SWidth - 1 Do
-    Write('*');
+    Write(ChFrame);
   GotoXY(2, SHeight);
 
   If MDist <> -1 Then
@@ -167,6 +169,8 @@ Begin
         Write('In the dark, the the talons of the grue drag you to your end.')
       Else If MDist = 0 Then
              Write(
+
+
 
 
 
@@ -181,6 +185,8 @@ Begin
 
 
 
+
+
                  'You can hear the talons of the grue tapping the tiles nearby.'
              )
     End
@@ -188,7 +194,7 @@ Begin
          Begin
            Write('You pick up a ');
            Write(Adjective[Items[CTreasure].D2]);
-           Write(' ');
+           Write(ChSpace);
            Write(Noun[Items[CTreasure].D1]);
            Write('.');
            CT := CT - 1;
@@ -207,7 +213,7 @@ Begin
         Begin
           Write('A ');
           Write(Adjective[Items[CLight].D2]);
-          Write(' ');
+          Write(ChSpace);
           Write(Noun[Items[CLight].D1]);
           Write(' lights your way.  For now.');
         End;
@@ -215,16 +221,22 @@ Begin
 End;
 
 Procedure DrawScore;
+
+Var
+  I : Integer;
 Begin
   GotoXY(SWidth-5, SHeight);
-  Write('*****');
+  For I := 0 To 5 Do
+    Write(ChFrame);
   GotoXY(SWidth-5, SHeight);
   Write(T);
   Write('/');
   Write(DT);
 
   GotoXY(SWidth-11, 1);
-  Write('Dungeon: ***');
+  Write('Dungeon: ');
+  For I := 0 To 3 Do
+    Write(ChFrame);
   GotoXY(SWidth-2, 1);
   Write(DC);
 End;

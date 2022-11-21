@@ -17,6 +17,7 @@ Begin
       H := Random(UHeight-LHeight) + LHeight + 1;
       X2 := X1 + W;
       Y2 := Y1 + H;
+      ShowContents := True;
     End;
 End;
 
@@ -147,15 +148,14 @@ Begin
   With Rooms[RoomI + 1] Do
     Begin
       While (TryAgain) Do
-
-
         Begin
 
           W := Random(UWidth-LWidth) + LWidth + 1;
           H := Random(UHeight-LHeight) + LHeight + 1;
           Discovered := False;
-
           GenNext := True;
+          ShowContents := True;
+
           Case D Of
             0:
                Begin
