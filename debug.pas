@@ -35,8 +35,16 @@ Begin
   Write(Debug.X);
   Write(' Y: ');
   Write(Debug.Y);
+  Write(' Room: ');
+  Write(Debug.Room);
+  Write(' IType: ');
+  Write(Debug.IType);
+  Write(' Taken: ');
+  Write(Debug.Taken);
   Write(' L: ');
   Write(Debug.L);
+  Write(' T: ');
+  Write(Debug.T);
   Write(' D1: ');
   Write(Debug.D1);
   Write(' D2: ');
@@ -62,7 +70,7 @@ Begin
   WriteLn(Debug.Room);
 End;
 
-Procedure DebugAll();
+Procedure DebugAll;
 
 Var
   L: Integer;
