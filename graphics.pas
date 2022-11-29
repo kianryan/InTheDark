@@ -31,6 +31,7 @@ Begin
     Begin
 
 
+
 { a door links two rooms - we only draw the door if one of the rooms
           is discovered }
       If (Rooms[Room1I].Discovered Or Rooms[Room2I].Discovered) And (Not Opened)
@@ -163,33 +164,15 @@ Begin
     Write(ChFrame);
   GotoXY(2, SHeight);
 
-  If MDist <> -1 Then
-    Begin
-      If (MDist = 0) And (L = 0) Then
-        Write('In the dark, the the talons of the grue drag you to your end.')
-      Else If MDist = 0 Then
-             Write(
-
-
-
-
-
-
-   'In the light, you bump in to the grue. It extinguishes your light, and you.'
-             )
-      Else If (MDist < 2) And (L = 0) Then
-             Write('You can hear the grue breathing down your neck.')
-      Else If ((MDist < 4) And (L = 0)) Then
-             Write(
-
-
-
-
-
-
-                 'You can hear the talons of the grue tapping the tiles nearby.'
-             )
-    End
+  If MDist = 0 Then
+    If L = 0 Then
+      Write('In the dark, the the talons of the grue drag you to your end.')
+    Else
+      Write('In the light, you bump in to the grue. It extinguishes your light, and you.')
+  Else If (MDist < 0) And (L = 0) Then
+    Write('You can hear the grue breathing down your neck.')
+  Else If (MDist < 4) And (L = 0) Then
+    Write('You can hear the talons of the grue tapping the tiles nearby.')
   Else If CT > 0 Then
          Begin
            Write('You pick up a ');
