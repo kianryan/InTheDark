@@ -57,50 +57,6 @@ Begin
   DT := DT + 1;
 End;
 
-
-{ Generate upto 3 items per room }
-Procedure GenerateItems;
-
-Var
-  I, J: Integer;
-  P: Single;
-Begin
-
-  CLight := -1;
-  CTreasure := -1;
-
- { player is given 1st light }
-  GenerateLight(0);
-
-  ItemI := 1;
-  T := 0;
-  DT := 0;
-  CT := 0;
-
-  For I := 0 To RoomI Do
-    Begin
-      For J := 0 To 5 Do
-        Begin
-          P := Random;
-          If P > 0.4 Then
-            Begin { we can adjust this as a difficulty }
-              If P > 0.8 Then GenerateTreasure(ItemI)
-              Else GenerateLight(ItemI);
-              With Items[ItemI], Rooms[I] Do
-                Begin
-                  X := Random(X2 - X1 - 2) + X1 + 1;
-                  Y := Random(Y2 - Y1 - 2) + Y1 + 1;
-                  Room := I;
-                End;
-
-              ItemI := ItemI + 1;
-            End;
-        End;
-    End;
-
-  ItemI := ItemI - 1;
-End;
-
 { check for collisions with items }
 Function HitItem(X1, Y1: Integer): Integer;
 
@@ -108,8 +64,9 @@ Var
   I: Integer;
   Found: Boolean;
 Begin
+WriteLn(ItemI);
   Found := False;
-  For I := 0 To ItemI Do
+  For I := 1 To ItemI Do
     Begin
       With Items[I] Do
         Begin
@@ -125,6 +82,52 @@ Begin
   Else HitItem := -1;
 End;
 
+{ Generate upto 3 items per room }
+Procedure GenerateItems;
+
+Var
+  I, J: Integer;
+  P: Single;
+  Valid: Boolean;
+Begin
+
+  CLight := -1;
+  CTreasure := -1;
+
+ { player is given 1st light }
+  GenerateLight(0);
+
+  ItemI := 0;
+  T := 0;
+  DT := 0;
+  CT := 0;
+
+  For I := 0 To RoomI Do
+    Begin
+      For J := 0 To 5 Do
+        Begin
+          Repeat
+            Begin
+              Valid := True;
+              P := Random;
+              If P > 0.4 Then
+                Begin { we can adjust this as a difficulty }
+                  If P > 0.8 Then GenerateTreasure(ItemI + 1)
+                  Else GenerateLight(ItemI + 1);
+                  With Items[ItemI + 1], Rooms[I] Do
+                    Begin
+                      X := Random(X2 - X1 - 2) + X1 + 1;
+                      Y := Random(Y2 - Y1 - 2) + Y1 + 1;
+                      Room := I;
+                      Valid := HitItem(X, Y) = -1;
+                      If Valid Then ItemI := ItemI + 1;
+                    End;
+                End
+            End;
+          Until Valid;
+        End;
+    End;
+End;
 { take the item, apply side effects to globals }
 Procedure TakeItem(I: Integer);
 Begin
