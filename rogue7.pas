@@ -3,9 +3,9 @@ Program Rogue;
 
 
 Uses
-Cp437,
 Crt,
-Math;
+Math,
+Unix;
 
 { linking file for rogue program }
 { Suitable for FPC and TP7 }

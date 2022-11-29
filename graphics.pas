@@ -168,8 +168,8 @@ Begin
     If L = 0 Then
       Write('In the dark, the the talons of the grue drag you to your end.')
     Else
-      Write('In the light, you bump in to the grue. It extinguishes your light, and you.')
-  Else If (MDist < 0) And (L = 0) Then
+      Write('You bump in to the grue. It extinguishes your light, and you.')
+  Else If (MDist < 2) And (L = 0) Then
     Write('You can hear the grue breathing down your neck.')
   Else If (MDist < 4) And (L = 0) Then
     Write('You can hear the talons of the grue tapping the tiles nearby.')

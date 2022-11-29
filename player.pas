@@ -5,19 +5,27 @@ Procedure GeneratePlayer;
 
 Var
   I : Integer;
+  Valid: Boolean;
 Begin
   I := Random(RoomI);
 
-  With CPlayer, Rooms[I] Do
+  Repeat
     Begin
-      Discovered := True;
-      DX := Random(X2 - X1 - 1) + X1 + 1;
-      DY := Random(Y2 - Y1 - 1) + Y1 + 1;
-      X := DX;
-      Y := DY; { first play - no tidy }
-      Room := I;
+      With CPlayer, Rooms[I] Do
+        Begin
+          DX := Random(X2 - X1 - 1) + X1 + 1;
+          DY := Random(Y2 - Y1 - 1) + Y1 + 1;
+          Valid := HitItem(DX, DY) = -1;
+          If Valid Then
+            Begin
+            X := DX;
+            Y := DY; { first play - no tidy }
+              Room := I;
+              Discovered := True;
+            End;
+        End;
     End;
-
+  Until Valid;
   TakeItem(0);
 End;
 

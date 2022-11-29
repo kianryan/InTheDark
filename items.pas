@@ -64,7 +64,6 @@ Var
   I: Integer;
   Found: Boolean;
 Begin
-WriteLn(ItemI);
   Found := False;
   For I := 1 To ItemI Do
     Begin
@@ -112,15 +111,19 @@ Begin
               P := Random;
               If P > 0.4 Then
                 Begin { we can adjust this as a difficulty }
-                  If P > 0.8 Then GenerateTreasure(ItemI + 1)
-                  Else GenerateLight(ItemI + 1);
                   With Items[ItemI + 1], Rooms[I] Do
                     Begin
                       X := Random(X2 - X1 - 2) + X1 + 1;
                       Y := Random(Y2 - Y1 - 2) + Y1 + 1;
                       Room := I;
                       Valid := HitItem(X, Y) = -1;
-                      If Valid Then ItemI := ItemI + 1;
+                      If Valid Then
+                        Begin
+                          If P > 0.8 Then GenerateTreasure(ItemI + 1)
+                          Else GenerateLight(ItemI + 1);
+                          ItemI := ItemI + 1;
+                        End
+
                     End;
                 End
             End;

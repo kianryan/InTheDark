@@ -2,6 +2,8 @@
 
 Begin
 
+  CursorOff;
+  fpSystem('tput civis');
   Randomize;
 
   SetupDict;
@@ -57,6 +59,8 @@ Begin
     End;
 
   GotoXY(1,SHeight+1);
+  fpSystem('tput cnorm'); { restore cursor }
+
 
   If (D = 666) Then
     Begin
