@@ -1,15 +1,3 @@
-
-Program Rogue;
-
-
-Uses
-Crt,
-Math,
-Unix;
-
-{ linking file for rogue program }
-{ Suitable for FPC and TP7 }
-
 {$I 'types.pas'}
 {$I 'room.pas'}
 {$I 'items.pas'}
