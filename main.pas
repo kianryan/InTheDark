@@ -2,8 +2,8 @@
 
 Begin
 
-  CursorOff;
-{ fpSystem('tput civis'); }
+  { CursorOff; }
+{ fpSystem('tput civis'); } { hide cursor }
   Randomize;
 
   SetupDict;
@@ -30,17 +30,6 @@ Begin
       DrawStatus;
       DrawScore;
 
-      // {$define DEBUG}
-{$ifdef DEBUG}
-      For I := 0 To RoomI Do
-        WriteRoom(Rooms[I], I + 1);
-      For I := 0 To DoorI Do
-        WriteDoor(Doors[I], I + 1);
-      For I := 0 To ItemI Do
-        WriteItem(Items[I], I + 1);
-      For I := 0 To MonsterI Do
-        WriteMonster(Monsters[I], I + 1);
-{$endif}
       L := 32767;
 
       While ((MDist <> 0) And (T < DT) And NextMove) Do
@@ -59,13 +48,12 @@ Begin
     End;
 
   GotoXY(1,SHeight+1);
-  { fpSystem('tput cnorm'); { restore cursor } }
-
+  { fpSystem('tput cnorm'); } { restore cursor }
 
   If (D = 666) Then
     Begin
-      Window(1, 1, ScreenWidth, ScreenHeight);
+      { Window(1, 1, ScreenWidth, ScreenHeight); Not in TP3 }
       ClrScr;
-      DebugAll();
+      DebugAll;
     End
 End.
