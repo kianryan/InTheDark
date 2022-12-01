@@ -65,17 +65,20 @@ Var
   Found: Boolean;
 Begin
   Found := False;
-  For I := 1 To ItemI Do
-    Begin
-      With Items[I] Do
-        Begin
-          If (X = X1) And (Y = Y1) And (Not Taken) Then
-            Begin
-              Found := True;
-              Break;
-            End;
-        End;
-    End;
+  I := 1;
+
+  If ItemI > 0 Then
+    Repeat
+      Begin
+        With Items[I] Do
+          Begin
+            If (X = X1) And (Y = Y1) And (Not Taken) Then
+              Found := True
+            Else
+              I := I + 1;
+          End;
+      End;
+    Until (I > ItemI) Or Found;
 
   If Found Then HitItem := I
   Else HitItem := -1;
