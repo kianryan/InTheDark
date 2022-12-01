@@ -358,7 +358,7 @@ Begin
   While (RoomI < 5) Do
     Begin { we need a minimum of 5 room dungeon }
       FirstRoom;
-      While ((RoomI < 10) And NextRoom()) Do ;
+      While ((RoomI < 10) And NextRoom) Do ;
     End;
   GenerateDoors;
 End;
