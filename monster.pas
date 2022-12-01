@@ -147,7 +147,8 @@ Var
   Found: Boolean;
 Begin
   Found := False;
-  For I := 0 To MonsterI Do
+  I := 0;
+  Repeat
     Begin
       With Monsters[I] Do
         Begin
@@ -157,13 +158,15 @@ Begin
               CX := Abs(X1 - X);
               CY := Abs(Y1 - Y);
               If (CX < 4) And (CY < 4) Then
-                Begin
-                  Found := True;
-                  Break;
-                End;
-            End;
+                Found := True
+              Else
+                I := I + 1;
+            End
+          Else
+            I := I + 1;
         End;
     End;
+  Until (I > MonsterI) Or Found;
 
   If Found Then
     HitMonster := Max(CX, CY)

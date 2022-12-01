@@ -37,16 +37,17 @@ Var
   Found: Boolean;
 Begin
   Found := False;
-  For I := 0 To RoomI Do
+  I := 0;
+  Repeat
     With Rooms[I] Do
       Begin
         If (((X >= X1) And (X <= X2)) And ((Y = Y1) Or (Y = Y2))) Or
            (((Y >= Y1) And (Y <= Y2)) And ((X = X1) Or (X = X2))) Then
-          Begin
-            Found := True;
-            Break;
-          End;
+          Found := True
+        Else
+          I := I + 1;
       End;
+  Until (I > RoomI) Or Found;
   HitWall := Found;
 End;
 
@@ -57,15 +58,16 @@ Var
   Found: Boolean;
 Begin
   Found := False;
-  For I := 0 To DoorI Do
+  I := 0;
+  Repeat
     With Doors[I] Do
       Begin
         If (X = X1) And (Y = Y1) Then
-          Begin
-            Found := True;
-            Break;
-          End;
+          Found := True
+        Else
+          I := I + 1;
       End;
+  Until (I > DoorI) Or Found;
 
   If Found Then HitDoor := I
   Else HitDoor := -1;
@@ -78,15 +80,16 @@ Var
   Found: Boolean;
 Begin
   Found := False;
-  For I := 0 To RoomI Do
+  I := 0;
+  Repeat
     With Rooms[I] Do
       Begin
         If (X > X1) And (X < X2) And (Y > Y1) And (Y < Y2) Then
-          Begin
-            Found := True;
-            Break;
-          End;
+          Found := True
+        Else
+          I := I + 1;
       End;
+  Until (I > RoomI) Or Found;
 
   If Found Then HitRoom := I
   Else HitRoom := -1;
@@ -105,8 +108,9 @@ Begin
   If RI = RT Then CanSee := True
   Else
     Begin
+      I := 0;
       Found := False;
-      For I := 0 To DoorI Do
+      Repeat
         Begin
           With Doors[I] Do
             Begin
@@ -114,12 +118,12 @@ Begin
                  ((Room1I = RT) And (Room2I = RI))) And
                  Opened
                 Then
-                Begin
-                  Found := True;
-                  Break;
-                End;
+                Found := True
+              Else
+                I := I + 1;
             End;
         End;
+      Until (I > DoorI) Or Found;
       CanSee := Found;
     End;
 End;
@@ -256,18 +260,19 @@ Var
   I: Integer;
 Begin
   Found := False;
-  For I := 0 To DoorI Do
+  I := 0;
+  Repeat
     Begin
       With Doors[DoorI] Do
         Begin
           If ((Room1I = Room1) And (Room2I = Room2)) Or
              ((Room2I = Room1) And (Room1I = Room2)) Then
-            Begin
-              Found := True;
-              Break;
-            End;
+            Found := True
+          Else
+            I := I + 1;
         End;
     End;
+  Until (I > DoorI) Or Found;
   DoorNotFound := Not Found;
 End;
 

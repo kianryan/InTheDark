@@ -80,7 +80,12 @@ Var
   L: Integer;
   I : Integer;
 Begin
-  L := 1;
+  GotoXY(1, 1);
+  Write('RoomI: ');
+  Write(RoomI);
+  Write('DoorI: ');
+  Write(DoorI);
+  L := 2;
   For I := 0 To RoomI Do
     WriteRoom(Rooms[I], I, L + I);
   L := L + I + 1;
