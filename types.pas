@@ -66,8 +66,8 @@ Var
   DC: Integer; { total number of dungeons cleared by player }
   NextDungeon: Boolean;
 
-  Noun: array[0..20] Of String;
-  Adjective: array[0..20] Of String;
+  Noun: array[0..20] Of String[19];
+  Adjective: array[0..20] Of String[19];
 
 Const
   SWidth = 80;
@@ -80,6 +80,7 @@ Const
   MHeight = 3;
 
   ChSpace = #32;
+  ChMonster = #34;
   ChHash = #35;
   ChDollar = #36;
   ChDoor = #88;

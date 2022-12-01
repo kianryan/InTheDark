@@ -71,7 +71,7 @@ Begin
     End;
 End;
 
-Procedure DrawMonster(I: Integer; Glyph: String);
+Procedure DrawMonster(I: Integer; Glyph: Char);
 Begin
   With Monsters[I] Do
     Begin
@@ -87,12 +87,12 @@ End;
 Procedure DrawMonsters;
 
 Var
-  Glyph: String;
+  Glyph: Char;
 Begin
   For I := 0 To MonsterI Do
     Begin
       Glyph := ChSpace;
-      If (Rooms[Monsters[I].Room].ShowContents) And (L > 0) Then Glyph := '"';
+      If (Rooms[Monsters[I].Room].ShowContents) And (L > 0) Then Glyph := ChMonster;
       DrawMonster(I, Glyph);
     End
 End;
