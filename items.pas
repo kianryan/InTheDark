@@ -2,7 +2,7 @@
 Procedure GenerateLight(I: Integer);
 
 Var
-  P: Single;
+  P: Real;
   DU, DL: Integer;
 Begin
   P := Random;
@@ -86,7 +86,7 @@ Procedure GenerateItems;
 
 Var
   I, J: Integer;
-  P: Single;
+  P: Real;
   Valid: Boolean;
 Begin
 

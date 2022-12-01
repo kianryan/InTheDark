@@ -3,7 +3,7 @@
 Procedure GenerateMonsters;
 
 Var
-  P: Single;
+  P: Real;
   I: Integer;
   Valid: Boolean;
 Begin
