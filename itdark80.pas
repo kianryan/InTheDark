@@ -6,6 +6,7 @@ Program InTheDark;
 
 { linking file for rogue program }
 { Suitable for TP3 / CPM }
+{$I LINTERM.PAS}
 {$I TYPES.PAS}
 {$I ROOM.PAS}
 {$I ITEMS.PAS}

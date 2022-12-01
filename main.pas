@@ -2,8 +2,7 @@
 
 Begin
 
-  { CursorOff; }
-{ fpSystem('tput civis'); } { hide cursor }
+  CursorOff;
   Randomize;
 
   SetupDict;
@@ -48,12 +47,12 @@ Begin
     End;
 
   GotoXY(1,SHeight+1);
-  { fpSystem('tput cnorm'); } { restore cursor }
 
   If (D = 666) Then
     Begin
-      { Window(1, 1, ScreenWidth, ScreenHeight); Not in TP3 }
       ClrScr;
       DebugAll;
-    End
+    End;
+
+  CursorOn;
 End.

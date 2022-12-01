@@ -10,6 +10,7 @@ Unix;
 { Suitable for FPC and TP7 }
 
 {$I TYPES.PAS}
+{$I LINTERM.PAS}
 {$I ROOM.PAS}
 {$I ITEMS.PAS}
 {$I MONSTER.PAS}

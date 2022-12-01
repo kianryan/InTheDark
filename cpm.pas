@@ -22,4 +22,3 @@ function Min(X1, X2: Integer) : Integer;
 begin
    if X1 <= X2 then Min := X1 else Min := X2;
 end;
-
