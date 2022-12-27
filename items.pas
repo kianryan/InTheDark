@@ -116,6 +116,7 @@ Begin
                 Begin { we can adjust this as a difficulty }
                   With Items[ItemI + 1], Rooms[I] Do
                     Begin
+                      Redraw := True;
                       X := Random(X2 - X1 - 2) + X1 + 1;
                       Y := Random(Y2 - Y1 - 2) + Y1 + 1;
                       Room := I;
@@ -138,6 +139,7 @@ End;
 Procedure TakeItem(I: Integer);
 Begin
   Items[I].Taken := True;
+  Items[I].Redraw := True;
   If Items[I].L > 0 Then
     Begin
       L := Items[I].L;

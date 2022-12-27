@@ -30,6 +30,11 @@ Begin
   With DD Do
     Begin
 
+
+
+
+
+
 { a door links two rooms - we only draw the door if one of the rooms
           is discovered }
       If (Rooms[Room1I].Discovered Or Rooms[Room2I].Discovered) And (Not Opened)
@@ -46,27 +51,31 @@ Begin
     End;
 End;
 
-Procedure DrawItem(DI: Item);
+Procedure DrawItem(I: Integer);
 Begin
-  With DI Do
-    Begin
-      GotoXY(X, Y);
-      Case (IType) Of
-        1: Write(ChHash); { Hash }
-        2: Write(ChDollar); { Dollar }
-        Else
-          Write(IType);
+  With Items[I] Do
+    If Redraw Then
+      Begin
+        Redraw := False; { reset flag }
+        GotoXY(X, Y);
+        Case (IType) Of
+          1: Write(ChHash); { Hash }
+          2: Write(ChDollar); { Dollar }
+          Else
+            Write(IType);
+        End;
       End;
-    End;
 End;
 
-Procedure HideItem(DI: Item);
+Procedure HideItem(I: Integer);
 Begin
-  With DI Do
-    Begin
-      GotoXY(X, Y);
-      Write(ChSpace);
-    End;
+  With Items[I] Do
+    If Redraw Then
+      Begin
+        Redraw := False; { reset flag }
+        GotoXY(X, Y);
+        Write(ChSpace);
+      End;
 End;
 
 Procedure DrawMonster(I: Integer; Glyph: Char);
@@ -90,7 +99,8 @@ Begin
   For I := 0 To MonsterI Do
     Begin
       Glyph := ChSpace;
-      If (Rooms[Monsters[I].Room].ShowContents) And (L > 0) Then Glyph := ChMonster;
+      If (Rooms[Monsters[I].Room].ShowContents) And (L > 0) Then
+        Glyph := ChMonster;
       DrawMonster(I, Glyph);
     End
 End;
@@ -99,19 +109,30 @@ Procedure DrawDungeon;
 
 Var
   I: Integer;
+  NewShowContents: Boolean;
 Begin
   For I := 0 To RoomI Do
     Begin
-      Rooms[I].ShowContents := CanSee(CPlayer.Room, I);
+      NewShowContents := CanSee(CPlayer.Room, I);
+      Rooms[I].Changed := NewShowContents <> Rooms[I].ShowContents;
+      Rooms[I].ShowContents := NewShowContents;
       DrawRoom(Rooms[I]);
     End;
+
   For I := 0 To DoorI Do
     DrawDoor(Doors[I]);
+
+  { we only redraw an item if its room has changed }
   For I := 1 To ItemI Do
-    If (Not Rooms[Items[I].Room].ShowContents) Or Items[I].Taken Or (L = 0) Then
-      HideItem(Items[I])
-    Else
-      DrawItem(Items[I]);
+    Begin
+      Items[I].Redraw := Items[I].Redraw Or Rooms[Items[I].Room].Changed;
+
+      If (Not Rooms[Items[I].Room].ShowContents) Or Items[I].Taken Or (L = 0)
+        Then
+        HideItem(I)
+      Else
+        DrawItem(I);
+    End;
 End;
 
 Procedure DrawFrame;
@@ -165,12 +186,12 @@ Begin
   If MDist = 0 Then
     If L = 0 Then
       Write('In the dark, the the talons of the grue drag you to your end.')
-    Else
-      Write('You bump in to the grue. It extinguishes your light, and you.')
+  Else
+    Write('You bump in to the grue. It extinguishes your light, and you.')
   Else If (MDist < 2) And (L = 0) Then
-    Write('You can hear the grue breathing down your neck.')
+         Write('You can hear the grue breathing down your neck.')
   Else If (MDist < 4) And (L = 0) Then
-    Write('You can hear the talons of the grue tapping the tiles nearby.')
+         Write('You can hear the talons of the grue tapping the tiles nearby.')
   Else If CT > 0 Then
          Begin
            Write('You pick up a ');

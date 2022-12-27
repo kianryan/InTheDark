@@ -5,6 +5,7 @@ Type
     X1, Y1, X2, Y2: Integer;
     Discovered: Boolean;
     ShowContents: Boolean;
+    Changed: Boolean;
   End;
 
   Door = Record
@@ -23,6 +24,7 @@ Type
     T: Integer; { add to treasure }
     D1: Integer; { desc idx 1 }
     D2: Integer; { desc idx 2 }
+    Redraw: Boolean; { item is only drawn once }
   End;
 
   Player = Record
