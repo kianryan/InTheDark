@@ -1,5 +1,21 @@
 { debugging code }
 
+{ Set every room and item to visible and redraw dungeon. }
+Procedure LightSpell;
+Begin
+  For I := 0 To RoomI Do
+  Begin
+    Rooms[I].Discovered := True;
+    Rooms[I].ShowContents := True;
+  End;
+  For I := 0 To DoorI Do
+  Begin
+    Doors[I].Opened := True;
+  End;
+  L := 9999;
+  DrawDungeon;
+End;
+
 { Debug print room co-ordinates}
 Procedure WriteRoom(Debug: Room; I: Integer; L: Integer);
 Begin

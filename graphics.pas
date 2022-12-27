@@ -30,8 +30,6 @@ Begin
   With DD Do
     Begin
 
-
-
 { a door links two rooms - we only draw the door if one of the rooms
           is discovered }
       If (Rooms[Room1I].Discovered Or Rooms[Room2I].Discovered) And (Not Opened)
@@ -160,7 +158,7 @@ Var
   I: Integer;
 Begin
   GotoXY(2, SHeight);
-  For I := 1 To SWidth - 1 Do
+  For I := 1 To SWidth Do
     Write(ChFrame);
   GotoXY(2, SHeight);
 
@@ -209,7 +207,7 @@ Var
   I : Integer;
 Begin
   GotoXY(SWidth-5, SHeight);
-  For I := 0 To 5 Do
+  For I := 0 To 4 Do
     Write(ChFrame);
   GotoXY(SWidth-5, SHeight);
   Write(T);
@@ -218,7 +216,7 @@ Begin
 
   GotoXY(SWidth-11, 1);
   Write('Dungeon: ');
-  For I := 0 To 3 Do
+  For I := 0 To 2 Do
     Write(ChFrame);
   GotoXY(SWidth-2, 1);
   Write(DC);

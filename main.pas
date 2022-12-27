@@ -34,6 +34,7 @@ Begin
       While ((MDist <> 0) And (T < DT) And NextMove) Do
         Begin
           If (MovePlayer) Then DrawDungeon;
+          If D = 111 Then LightSpell;
           DrawPlayer;
           DrawMonsters;
           MDist := HitMonster(CPlayer.X, CPlayer.Y);

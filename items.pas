@@ -106,7 +106,7 @@ Begin
 
   For I := 0 To RoomI Do
     Begin
-      For J := 0 To 5 Do
+      For J := 0 To 4 Do
         Begin
           Repeat
             Begin

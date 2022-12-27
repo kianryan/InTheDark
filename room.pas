@@ -261,9 +261,9 @@ Var
 Begin
   Found := False;
   I := 0;
-  Repeat
+  While (I < DoorI) And (Not Found) Do
     Begin
-      With Doors[DoorI] Do
+      With Doors[I] Do
         Begin
           If ((Room1I = Room1) And (Room2I = Room2)) Or
              ((Room2I = Room1) And (Room1I = Room2)) Then
@@ -272,7 +272,6 @@ Begin
             I := I + 1;
         End;
     End;
-  Until (I > DoorI) Or Found;
   DoorNotFound := Not Found;
 End;
 
@@ -300,12 +299,11 @@ Begin
     Begin
       CR := Rooms[I];
         { compare this room to all rooms previous. }
-      For J := 0 To I - 1 Do
+      For J := 0 To I Do
         Begin
           TR := Rooms[J];
           With Doors[DoorI] Do
             Begin
-              DoorI := DoorI + 1; { assume success }
 
               Room1I := I;
               Room2I := J;
@@ -314,6 +312,7 @@ Begin
                 { check for collisions before doing anything else }
               If (DoorNotFound(I, J)) Then
                 Begin
+                  DoorI := DoorI + 1; { assume success }
                     { see if axis overlap, if they do, then generate a door }
                   If (CR.X2 = TR.X1) And ((TR.Y1 < CR.Y2) And (TR.Y2 > CR.Y1))
                     Then { E }
@@ -334,21 +333,21 @@ Begin
                            X := RandomInRange(CR.X1, TR.X1, CR.X2, TR.X2);
                          End
                   Else If (CR.Y1 = TR.Y2) And ((TR.X1 < CR.X2) And (TR.X2 > CR.
-                          X1)) Then { N }
+                          X1)) Then { S }
                          Begin
                            Y := CR.Y1;
                            X := RandomInRange(CR.X1, TR.X1, CR.X2, TR.X2);
                          End
-                  Else DoorI := DoorI - 1; { door not found }
+                  Else
+                    Begin
+                      DoorI := DoorI - 1;
+                    End;
                 End
-              Else
-                DoorI := DoorI - 1; { collision }
             End;
         End;
     End;
 
   DoorI := DoorI - 1;
-
 End;
 
 { Generates new dungeon, resets dungeon variables }
