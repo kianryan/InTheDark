@@ -138,6 +138,7 @@ Var
   CR: Room;
   TryAgain, GenNext: Boolean;
 Begin
+
     { So, we know the current room, and we can decide a direction}
   D := Random(4);
   DS := D; { Keep track of the starting position }
@@ -241,7 +242,6 @@ Begin
               If D = DS Then
                 Begin
                   TryAgain := False; { We have tried all ords }
-                  GotoXY(CR.X1 + 1, CR.Y1 + 1);
                 End
               Else
             End;
@@ -283,7 +283,10 @@ Begin
   AMin := Max(Min1, Min2) + 1;
   AMax := Min(Max1, Max2) - 1;
   A := AMax - AMin;
-  RandomInRange := AMin + Random(A);
+  If A > 0 Then
+    RandomInRange := AMin + Random(A)
+  Else
+    RandomInRange := AMin;
 End;
 
 { After room generation, calc where doors can be placed. }
