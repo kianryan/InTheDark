@@ -16,8 +16,8 @@ Begin
     'd': D := 1;
     'w': D := 2;
     'q': D := 999;
-    'p': D := 666; { debug code }
-    'l': D := 111; { debug code }
+    { 'p': D := 666; } { debug code }
+    { 'l': D := 111; } { debug code }
   End;
 
   NextMove := Not ((D = 999) or (D = 666)); { we are quitting? }
