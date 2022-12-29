@@ -135,6 +135,15 @@ Begin
         End;
     End;
 End;
+
+{ set all items for redraw }
+Procedure SetAllRedraw;
+Var
+  I : Integer;
+Begin
+  For I := 1 To ItemI Do Items[I].Redraw := True;
+End;
+
 { take the item, apply side effects to globals }
 Procedure TakeItem(I: Integer);
 Begin
@@ -142,6 +151,7 @@ Begin
   Items[I].Redraw := True;
   If Items[I].L > 0 Then
     Begin
+      SetAllRedraw;
       L := Items[I].L;
       CLight := I;
     End;

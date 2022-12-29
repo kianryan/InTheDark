@@ -91,7 +91,11 @@ Begin
           Else
             Begin
               If (L > 0) Then L := L - 1;
-              If L = 0 Then Redraw := True; { Hide items }
+              If L = 0 Then
+              Begin
+                SetAllRedraw;
+                Redraw := True; { Hide items }
+              End
             End;
 
           MoveMonsters;
