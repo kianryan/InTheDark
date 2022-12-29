@@ -178,7 +178,7 @@ Procedure DrawStatus;
 Var
   I: Integer;
 Begin
-  GotoXY(2, SHeight);
+  GotoXY(1, SHeight);
   For I := 1 To SWidth Do
     Write(ChFrame);
   GotoXY(2, SHeight);
