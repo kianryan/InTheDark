@@ -35,6 +35,8 @@ Begin
 
 
 
+
+
 { a door links two rooms - we only draw the door if one of the rooms
           is discovered }
       If (Rooms[Room1I].Discovered Or Rooms[Room2I].Discovered) And (Not Opened)
@@ -188,9 +190,9 @@ Begin
       Write('In the dark, the the talons of the grue drag you to your end.')
   Else
     Write('You bump in to the grue. It extinguishes your light, and you.')
-  Else If (MDist < 2) And (L = 0) Then
+  Else If (MDist <> -1) And (MDist < 2) And (L = 0) Then
          Write('You can hear the grue breathing down your neck.')
-  Else If (MDist < 4) And (L = 0) Then
+  Else If (MDist <> -1) And (MDist < 4) And (L = 0) Then
          Write('You can hear the talons of the grue tapping the tiles nearby.')
   Else If CT > 0 Then
          Begin
