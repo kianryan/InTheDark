@@ -3,6 +3,7 @@ Program InTheDark;
 
 {platform specific includes }
 {$I CPM.PAS}
+{$I ANSI.PAS}
 
 { linking file for rogue program }
 { Suitable for TP3 / CPM }
