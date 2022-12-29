@@ -29,7 +29,7 @@ Begin
       DrawStatus;
       DrawScore;
 
-      L := 32767;
+      // L := 32767;
 
       While ((MDist <> 0) And (T < DT) And NextMove) Do
         Begin

@@ -32,11 +32,12 @@ Begin
       DU := 3;
     End;
 
+  { light will become less effective per level }
   With Items[I] Do
     Begin
       IType := 1; { light }
       Taken := False;
-      L := (Random(DU - DL) + DL) * 4; { more! }
+      L := (Random(DU - DL) + DL) * 16 div Min(DC + 1, 16);
       T := 0;
       D1 := Random(DU - DL) + DL;
       D2 := Random(10);

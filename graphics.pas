@@ -180,6 +180,12 @@ Procedure DrawStatus;
 Var
   I: Integer;
 Begin
+  GotoXY(1,1);
+  For I := 1 To 3 Do
+    Write(ChFrame);
+  GotoXY(1,1);
+  Write(L);
+
   GotoXY(1, SHeight);
   For I := 1 To SWidth Do
     Write(ChFrame);
