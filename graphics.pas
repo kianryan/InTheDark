@@ -240,5 +240,5 @@ Begin
   For I := 0 To 2 Do
     Write(ChFrame);
   GotoXY(SWidth-2, 1);
-  Write(DC);
+  Write(DC + 1);
 End;
