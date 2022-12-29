@@ -2,12 +2,12 @@
 Program InTheDark;
 
 Uses
-Crt,
-Math,
-Unix;
+Crt;
 
 { linking file for rogue program }
 { Suitable for FPC and TP7 }
+{$I ALL.INC}
+{$I DOS.INC}
 
 {$I TYPES.INC}
 {$I ROOM.INC}
@@ -18,3 +18,7 @@ Unix;
 {$I INPUT.INC}
 {$I DEBUG.INC}
 {$I MAIN.INC}
+
+begin
+    Main
+end.

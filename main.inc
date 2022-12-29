@@ -1,5 +1,6 @@
-{ main game loop }
 
+{ main game loop }
+Procedure Main;
 Begin
 
   CursorOff;
@@ -10,7 +11,6 @@ Begin
   MDist := 0;
   CT := 0;
   T := 0;
-
 
   DC := 0;
   NextDungeon := True;
@@ -56,4 +56,4 @@ Begin
     End;
 
   CursorOn;
-End.
+End;

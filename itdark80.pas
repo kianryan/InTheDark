@@ -2,6 +2,7 @@
 Program InTheDark;
 
 {platform specific includes }
+{$I ALL.INC}
 {$I CPM.INC}
 {$I ANSI.INC}
 
@@ -16,3 +17,7 @@ Program InTheDark;
 {$I INPUT.INC}
 {$I DEBUG.INC}
 {$I MAIN.INC}
+
+begin
+    Main
+end.

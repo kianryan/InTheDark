@@ -3,7 +3,6 @@ Program InTheDark;
 
 Uses
 Crt,
-Math,
 Unix;
 
 { linking file for rogue program }
@@ -19,3 +18,7 @@ Unix;
 {$I INPUT.INC}
 {$I DEBUG.INC}
 {$I MAIN.INC}
+
+begin
+    Main
+end.
