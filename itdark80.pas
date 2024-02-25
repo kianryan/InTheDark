@@ -1,7 +1,10 @@
 
 Program InTheDark;
 
-{platform specific includes }
+{ compiler directives }
+{$C-,R-,U-,V-,A+,X+}
+
+{ platform specific includes }
 {$I ALL.INC}
 {$I CPM.INC}
 {$I ANSI.INC}

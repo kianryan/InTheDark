@@ -22,24 +22,24 @@ light, but when the lights go out, they're coming for you...
 
 ## Controls
 
-**wasd** : Movement  
-**q** : Quit
+* **wasd** : Movement
+* **q** : Quit
 
 ## Compiling
 
 In The Dark is built on multiple generations of Turbo Pascal and Free Pascal. 
 Each binary is compiled on its respective system.
 
-### **ITDARK80.COM** - Turbo Pascal 3.0 for CP/M.  Built on a RC2014 Pro.  
+**ITDARK80.COM** - Turbo Pascal 3.0 for CP/M.  Built on a RC2014 Pro.
 
 * Copy source to RC2014 using [Grant Searle's z80sbcFiles FilePackager](http://searle.x10host.com/z80/SimpleZ80_32K.html) and download.com
 * Copy [Turbo Pascal 3](http://www.retroarchive.org/cpm/lang/lang.htm) to RC2014.
 * Start Turbo Pascal 3.
 * Set drive, main file to ITDARK80.PAS.
 * Set compiler options to COM.
-* Build.
+* Build
 
-**ITDARK7.COM** - Turbo Pascal 5.5 for DOS.  Built using DOSBOX.  
+**ITDARK7.COM** - Turbo Pascal 5.5 for DOS.  Built using DOSBOX.
 
 * Download [Turbo Pascal 5.5](https://turbopascal.org/turbo-pascal-download), install under [DOSBOX](https://www.dosbox.com/) to `c:\tp`.
 * Copy source files to `c:\itd`.
