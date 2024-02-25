@@ -10,6 +10,7 @@ A rogue-like survival game for CP/M, DOS and modern systems.
 
 Downloads for the following systems are available in [Releases](https://github.com/kianryan/InTheDark/releases):
 * ITDARK80.COM - CP/M with ANSI Terminal (developed for RC2014).
+* ITDARKKP.COM - CP/M with Kaypro Terminal (developed for Kaypro).
 * ITDARK7.EXE - 16 Bit DOS (tested in DOS Box).
 * ITDARKFP.EXE - Modern Windows executable.
 
@@ -36,6 +37,15 @@ Each binary is compiled on its respective system.
 * Copy [Turbo Pascal 3](http://www.retroarchive.org/cpm/lang/lang.htm) to RC2014.
 * Start Turbo Pascal 3.
 * Set drive, main file to ITDARK80.PAS.
+* Set compiler options to COM.
+* Build.
+
+### **ITDARKKP.COM** - Turbo Pascal 3.0 for CP/M.  Built on a Kaypro
+
+* Copy source to your Kaypro using the tool you usually use (Kermit, 22DSK, etc.)
+* Copy [Turbo Pascal 3](http://www.retroarchive.org/cpm/lang/lang.htm) to Kaypro.
+* Start Turbo Pascal 3.
+* Set drive, main file to ITDARKKP.PAS.
 * Set compiler options to COM.
 * Build.
 
